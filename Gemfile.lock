@@ -4,6 +4,7 @@ PATH
     pay-revenuecat (0.1.0)
       activesupport
       pay (~> 8)
+      railties (>= 7.1, < 9)
 
 GEM
   remote: https://rubygems.org/
@@ -88,6 +89,9 @@ GEM
     connection_pool (2.5.0)
     crass (1.0.6)
     date (3.4.1)
+    debug (1.10.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     drb (2.2.1)
     erubi (1.13.1)
     globalid (1.2.1)
@@ -241,6 +245,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  debug
   irb
   minitest (~> 5.16)
   pay-revenuecat!

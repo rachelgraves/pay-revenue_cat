@@ -6,6 +6,7 @@ require "rails"
 require "action_controller/railtie"
 require "pay/revenuecat"
 require "minitest/autorun"
+require "debug"
 
 class App < Rails::Application
   config.eager_load = false

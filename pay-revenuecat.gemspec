@@ -32,7 +32,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "pay", "~> 8"
   spec.add_development_dependency "minitest"
   spec.add_development_dependency "rails", ">= 8.0"
-
+  spec.add_dependency "railties", ">= 7.1", "< 9"
+  spec.add_development_dependency "debug"
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end

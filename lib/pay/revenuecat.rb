@@ -14,5 +14,12 @@ module Pay
     def self.enabled?
       true
     end
+
+    def self.configure_webhooks
+      # https://docs.asaas.com/docs/webhook-para-cobrancas
+      Pay::Webhooks.configure do |events|
+        events.subscribe "revenuecat.INITIAL_PURCHASE", Pay::Revenuecat::Webhooks::InitialPurchase.new
+      end
+    end
   end
 end

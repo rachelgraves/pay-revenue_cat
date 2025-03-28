@@ -14,9 +14,9 @@ module Pay
         end
       end
 
-      # config.before_initialize do
-      #   Pay::Revenuecat.configure_webhooks if Pay::Revenuecat.enabled?
-      # end
+      config.before_initialize do
+        Pay::Revenuecat.configure_webhooks if Pay::Revenuecat.enabled?
+      end
     end
   end
 end

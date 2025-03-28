@@ -865,3 +865,51 @@ Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
 ----------------------------------------------------------------------
 Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
 ----------------------------------------------------------------------
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+----------------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
+----------------------------------------------------------------------
+Started GET "/pay-revenuecat/test" for 127.0.0.1 at 2025-03-28 14:25:13 +0000
+  
+Errno::EIO (Input/output error):
+  
+reline (0.6.0) lib/reline/io/ansi.rb:122:in 'IO#raw'
+reline (0.6.0) lib/reline/io/ansi.rb:122:in 'Reline::ANSI#with_raw_input'
+reline (0.6.0) lib/reline.rb:256:in 'block in Reline::Core#readmultiline'
+reline (0.6.0) lib/reline.rb:251:in 'Thread::Mutex#synchronize'
+reline (0.6.0) lib/reline.rb:251:in 'Reline::Core#readmultiline'
+/Users/rachelgraves/.asdf/installs/ruby/3.4.2/lib/ruby/3.4.0/forwardable.rb:240:in 'Reline.readmultiline'
+debug (1.10.0) lib/debug/console.rb:101:in 'block in DEBUGGER__::Console#readline'
+debug (1.10.0) lib/debug/console.rb:82:in 'DEBUGGER__::Console#readline_setup'
+debug (1.10.0) lib/debug/console.rb:100:in 'DEBUGGER__::Console#readline'
+debug (1.10.0) lib/debug/local.rb:78:in 'block in DEBUGGER__::UI_LocalConsole#readline'
+debug (1.10.0) lib/debug/local.rb:90:in 'block in DEBUGGER__::UI_LocalConsole#setup_interrupt'
+debug (1.10.0) lib/debug/session.rb:1989:in 'DEBUGGER__::Session#intercept_trap_sigint'
+debug (1.10.0) lib/debug/local.rb:83:in 'DEBUGGER__::UI_LocalConsole#setup_interrupt'
+debug (1.10.0) lib/debug/local.rb:77:in 'DEBUGGER__::UI_LocalConsole#readline'
+debug (1.10.0) lib/debug/session.rb:445:in 'DEBUGGER__::Session#wait_command'
+debug (1.10.0) lib/debug/session.rb:405:in 'block in DEBUGGER__::Session#wait_command_loop'
+<internal:kernel>:168:in 'Kernel#loop'
+debug (1.10.0) lib/debug/session.rb:404:in 'DEBUGGER__::Session#wait_command_loop'
+debug (1.10.0) lib/debug/session.rb:366:in 'DEBUGGER__::Session#process_event'
+debug (1.10.0) lib/debug/session.rb:255:in 'DEBUGGER__::Session#session_server_main'
+debug (1.10.0) lib/debug/session.rb:207:in 'block in DEBUGGER__::Session#activate'
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+----------------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
+----------------------------------------------------------------------
+Started GET "/pay-revenuecat/test" for 127.0.0.1 at 2025-03-28 14:25:19 +0000
+Processing by Pay::Revenuecat::TestController#index as HTML
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | GC: 0.0ms)
+Completed 200 OK in 4ms (Views: 2.7ms | GC: 0.8ms)

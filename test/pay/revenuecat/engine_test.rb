@@ -10,7 +10,6 @@ class Pay::Revenuecat::EngineTest < ActionDispatch::IntegrationTest
   end
 
   test "engine route is mounted in dummy app" do
-    debugger
     get "/pay-revenuecat/test"
     assert_response :success
   end

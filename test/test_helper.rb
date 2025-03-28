@@ -1,26 +1,16 @@
 # frozen_string_literal: true
 
-ENV["RAILS_ENV"] ||= "test"
+ENV["RAILS_ENV"] = "test"
 
-require "rails"
-require "action_controller/railtie"
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 require "pay/revenuecat"
+
 require "minitest/autorun"
-require "debug"
 
-class App < Rails::Application
-  config.eager_load = false
-  config.secret_key_base = "secret"
-  config.hosts.clear
-  config.root = File.expand_path("..", __dir__)
-
-  routes.append do
-    mount Pay::Revenuecat::Engine => "/pay-revenuecat"
-  end
-end
-
-Rails.application = App.instance
-Rails.backtrace_cleaner.remove_silencers!
-App.initialize!
-
+require File.expand_path("dummy/config/environment.rb", __dir__)
+ActiveRecord::Migrator.migrations_paths = [
+  File.expand_path("dummy/db/migrate", __dir__),
+  File.expand_path("../db/migrate", __dir__)
+]
 require "rails/test_help"
+Rails.backtrace_cleaner.remove_silencers!

@@ -245,3 +245,24 @@ minitest (5.25.5) lib/minitest.rb:332:in 'Minitest.__run'
 minitest (5.25.5) lib/minitest.rb:288:in 'Minitest.run'
 minitest (5.25.5) lib/minitest.rb:86:in 'block in Minitest.autorun'
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
+----------------------------------------------------------------------
+Started GET "/pay-revenuecat/test" for 127.0.0.1 at 2025-03-28 15:06:58 +0000
+Processing by Pay::Revenuecat::TestController#index as HTML
+  Rendering text template
+  Rendered text template (Duration: 0.0ms | GC: 0.0ms)
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m

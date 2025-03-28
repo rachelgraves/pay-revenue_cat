@@ -1,0 +1,6 @@
+revenuecat:
+  type: Pay::Revenuecat::Customer
+  owner: revenuecat (User)
+  processor: revenuecat
+  processor_id: 1e740701-4805-481a-b331-4342090c6dcd
+  default: true

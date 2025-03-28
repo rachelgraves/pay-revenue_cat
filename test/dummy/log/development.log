@@ -158,3 +158,455 @@ FOREIGN KEY ("customer_id")
   [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250328150903') RETURNING "version" /*application='Dummy'*/[0m
   [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
   [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+Migrating to AddPayStiColumns (20250328150903)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mPay::Customer Load (0.2ms)[0m  [1m[34mSELECT "pay_customers".* FROM "pay_customers" ORDER BY "pay_customers"."id" ASC LIMIT 1000 /*application='Dummy'*/[0m
+  [1m[36mPay::Merchant Load (0.2ms)[0m  [1m[34mSELECT "pay_merchants".* FROM "pay_merchants" ORDER BY "pay_merchants"."id" ASC LIMIT 1000 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_merchants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apay_merchants_on_owner_type_and_owner_id_and_processor" ON "apay_merchants" ("owner_type", "owner_id", "processor") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_merchants" ("id","owner_type","owner_id","processor","processor_id","default","data","created_at","updated_at","type")
+                     SELECT "id","owner_type","owner_id","processor","processor_id","default","data","created_at","updated_at","type" FROM "pay_merchants" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_merchants" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "pay_merchants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_pay_merchants_on_owner_type_and_owner_id_and_processor" ON "pay_merchants" ("owner_type", "owner_id", "processor") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "pay_merchants" ("id","owner_type","owner_id","processor","processor_id","default","data","created_at","updated_at")
+                     SELECT "id","owner_type","owner_id","processor","processor_id","default","data","created_at","updated_at" FROM "apay_merchants" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "apay_merchants" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "payment_method_type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_payment_methods_on_customer_id_and_processor_id" ON "apay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "apay_payment_methods" ("id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at","type")
+                     SELECT "id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at","type" FROM "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "payment_method_type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c78c6cb84d"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" ON "pay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_payment_methods" ("id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at" FROM "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_payment_methods_on_customer_id_and_processor_id" ON "apay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_payment_methods" ("id","customer_id","processor_id","default","type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at" FROM "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c78c6cb84d"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" ON "pay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_payment_methods" ("id","customer_id","processor_id","default","type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","type","data","stripe_account","created_at","updated_at" FROM "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_subscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "name" varchar NOT NULL, "processor_id" varchar NOT NULL, "processor_plan" varchar NOT NULL, "quantity" integer DEFAULT 1 NOT NULL, "status" varchar NOT NULL, "current_period_start" datetime, "current_period_end" datetime, "trial_ends_at" datetime, "ends_at" datetime, "metered" boolean, "pause_behavior" varchar, "pause_starts_at" datetime, "pause_resumes_at" datetime, "application_fee_percent" decimal(8,2), "metadata" json, "data" json, "stripe_account" varchar, "payment_method_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apay_subscriptions_on_pause_starts_at" ON "apay_subscriptions" ("pause_starts_at") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apay_subscriptions_on_metered" ON "apay_subscriptions" ("metered") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_subscriptions_on_customer_id_and_processor_id" ON "apay_subscriptions" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_subscriptions" ("id","customer_id","name","processor_id","processor_plan","quantity","status","current_period_start","current_period_end","trial_ends_at","ends_at","metered","pause_behavior","pause_starts_at","pause_resumes_at","application_fee_percent","metadata","data","stripe_account","payment_method_id","created_at","updated_at","type")
+                     SELECT "id","customer_id","name","processor_id","processor_plan","quantity","status","current_period_start","current_period_end","trial_ends_at","ends_at","metered","pause_behavior","pause_starts_at","pause_resumes_at","application_fee_percent","metadata","data","stripe_account","payment_method_id","created_at","updated_at","type" FROM "pay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_subscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "name" varchar NOT NULL, "processor_id" varchar NOT NULL, "processor_plan" varchar NOT NULL, "quantity" integer DEFAULT 1 NOT NULL, "status" varchar NOT NULL, "current_period_start" datetime, "current_period_end" datetime, "trial_ends_at" datetime, "ends_at" datetime, "metered" boolean, "pause_behavior" varchar, "pause_starts_at" datetime, "pause_resumes_at" datetime, "application_fee_percent" decimal(8,2), "metadata" json, "data" json, "stripe_account" varchar, "payment_method_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b7cd64d378"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_subscriptions_on_customer_id_and_processor_id" ON "pay_subscriptions" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_subscriptions_on_metered" ON "pay_subscriptions" ("metered") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_subscriptions_on_pause_starts_at" ON "pay_subscriptions" ("pause_starts_at") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_subscriptions" ("id","customer_id","name","processor_id","processor_plan","quantity","status","current_period_start","current_period_end","trial_ends_at","ends_at","metered","pause_behavior","pause_starts_at","pause_resumes_at","application_fee_percent","metadata","data","stripe_account","payment_method_id","created_at","updated_at")
+                     SELECT "id","customer_id","name","processor_id","processor_plan","quantity","status","current_period_start","current_period_end","trial_ends_at","ends_at","metered","pause_behavior","pause_starts_at","pause_resumes_at","application_fee_percent","metadata","data","stripe_account","payment_method_id","created_at","updated_at" FROM "apay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "apay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_charges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "subscription_id" bigint, "processor_id" varchar NOT NULL, "amount" integer NOT NULL, "currency" varchar, "application_fee_amount" integer, "amount_refunded" integer, "metadata" json, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_charges_on_customer_id_and_processor_id" ON "apay_charges" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apay_charges_on_subscription_id" ON "apay_charges" ("subscription_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "apay_charges" ("id","customer_id","subscription_id","processor_id","amount","currency","application_fee_amount","amount_refunded","metadata","data","stripe_account","created_at","updated_at","type")
+                     SELECT "id","customer_id","subscription_id","processor_id","amount","currency","application_fee_amount","amount_refunded","metadata","data","stripe_account","created_at","updated_at","type" FROM "pay_charges" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_charges" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_charges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "subscription_id" bigint, "processor_id" varchar NOT NULL, "amount" integer NOT NULL, "currency" varchar, "application_fee_amount" integer, "amount_refunded" integer, "metadata" json, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_44a2c276fa"
+FOREIGN KEY ("subscription_id")
+  REFERENCES "pay_subscriptions" ("id")
+, CONSTRAINT "fk_rails_b19d32f835"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_pay_charges_on_subscription_id" ON "pay_charges" ("subscription_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_charges_on_customer_id_and_processor_id" ON "pay_charges" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_charges" ("id","customer_id","subscription_id","processor_id","amount","currency","application_fee_amount","amount_refunded","metadata","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","subscription_id","processor_id","amount","currency","application_fee_amount","amount_refunded","metadata","data","stripe_account","created_at","updated_at" FROM "apay_charges" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "apay_charges" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_customers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "stripe_account" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_customers_on_processor_and_processor_id" ON "apay_customers" ("processor", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tpay_customer_owner_index" ON "apay_customers" ("owner_type", "owner_id", "deleted_at") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_customers" ("id","owner_type","owner_id","processor","processor_id","default","data","stripe_account","deleted_at","created_at","updated_at","type")
+                     SELECT "id","owner_type","owner_id","processor","processor_id","default","data","stripe_account","deleted_at","created_at","updated_at","type" FROM "pay_customers" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_customers" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "pay_customers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "stripe_account" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "pay_customer_owner_index" ON "pay_customers" ("owner_type", "owner_id", "deleted_at") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_customers_on_processor_and_processor_id" ON "pay_customers" ("processor", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_customers" ("id","owner_type","owner_id","processor","processor_id","default","data","stripe_account","deleted_at","created_at","updated_at")
+                     SELECT "id","owner_type","owner_id","processor","processor_id","default","data","stripe_account","deleted_at","created_at","updated_at" FROM "apay_customers" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apay_customers" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20250328150903' /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+Migrating to CreatePayTables (20250328150902)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE "pay_webhooks" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_charges_on_customer_id_and_processor_id" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_charges" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_subscriptions_on_pause_starts_at" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mDROP INDEX "index_pay_subscriptions_on_metered" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_subscriptions_on_customer_id_and_processor_id" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_merchants_on_owner_type_and_owner_id_and_processor" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_merchants" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_customers_on_processor_and_processor_id" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "pay_customer_owner_index" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_customers" /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20250328150902' /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+Migrating to CreatePayTables (20250328150902)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "pay_customers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "stripe_account" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "pay_customer_owner_index" ON "pay_customers" ("owner_type", "owner_id", "deleted_at") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_customers_on_processor_and_processor_id" ON "pay_customers" ("processor", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "pay_merchants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_merchants_on_owner_type_and_owner_id_and_processor" ON "pay_merchants" ("owner_type", "owner_id", "processor") /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c78c6cb84d"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" ON "pay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_subscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "name" varchar NOT NULL, "processor_id" varchar NOT NULL, "processor_plan" varchar NOT NULL, "quantity" integer DEFAULT 1 NOT NULL, "status" varchar NOT NULL, "current_period_start" datetime, "current_period_end" datetime, "trial_ends_at" datetime, "ends_at" datetime, "metered" boolean, "pause_behavior" varchar, "pause_starts_at" datetime, "pause_resumes_at" datetime, "application_fee_percent" decimal(8,2), "metadata" json, "data" json, "stripe_account" varchar, "payment_method_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b7cd64d378"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_subscriptions_on_customer_id_and_processor_id" ON "pay_subscriptions" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_pay_subscriptions_on_metered" ON "pay_subscriptions" ("metered") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_subscriptions_on_pause_starts_at" ON "pay_subscriptions" ("pause_starts_at") /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_charges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "subscription_id" bigint, "processor_id" varchar NOT NULL, "amount" integer NOT NULL, "currency" varchar, "application_fee_amount" integer, "amount_refunded" integer, "metadata" json, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b19d32f835"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+, CONSTRAINT "fk_rails_44a2c276fa"
+FOREIGN KEY ("subscription_id")
+  REFERENCES "pay_subscriptions" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_charges_on_subscription_id" ON "pay_charges" ("subscription_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_charges_on_customer_id_and_processor_id" ON "pay_charges" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "pay_webhooks" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "processor" varchar, "event_type" varchar, "event" json, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250328150902') RETURNING "version" /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+Migrating to AddPayStiColumns (20250328150903)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mALTER TABLE "pay_customers" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "pay_charges" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "pay_subscriptions" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "payment_method_type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_payment_methods_on_customer_id_and_processor_id" ON "apay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_payment_methods" ("id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","type","data","stripe_account","created_at","updated_at" FROM "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "payment_method_type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c78c6cb84d"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" ON "pay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_payment_methods" ("id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at" FROM "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "pay_payment_methods" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "pay_merchants" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[36mPay::Customer Load (0.1ms)[0m  [1m[34mSELECT "pay_customers".* FROM "pay_customers" ORDER BY "pay_customers"."id" ASC LIMIT 1000 /*application='Dummy'*/[0m
+  [1m[36mPay::Merchant Load (0.0ms)[0m  [1m[34mSELECT "pay_merchants".* FROM "pay_merchants" ORDER BY "pay_merchants"."id" ASC LIMIT 1000 /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250328150903') RETURNING "version" /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+Migrating to AddPayStiColumns (20250328150903)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mPay::Customer Load (0.1ms)[0m  [1m[34mSELECT "pay_customers".* FROM "pay_customers" ORDER BY "pay_customers"."id" ASC LIMIT 1000 /*application='Dummy'*/[0m
+  [1m[36mPay::Merchant Load (0.0ms)[0m  [1m[34mSELECT "pay_merchants".* FROM "pay_merchants" ORDER BY "pay_merchants"."id" ASC LIMIT 1000 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_merchants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apay_merchants_on_owner_type_and_owner_id_and_processor" ON "apay_merchants" ("owner_type", "owner_id", "processor") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_merchants" ("id","owner_type","owner_id","processor","processor_id","default","data","created_at","updated_at","type")
+                     SELECT "id","owner_type","owner_id","processor","processor_id","default","data","created_at","updated_at","type" FROM "pay_merchants" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_merchants" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_merchants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCREATE INDEX "index_pay_merchants_on_owner_type_and_owner_id_and_processor" ON "pay_merchants" ("owner_type", "owner_id", "processor") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_merchants" ("id","owner_type","owner_id","processor","processor_id","default","data","created_at","updated_at")
+                     SELECT "id","owner_type","owner_id","processor","processor_id","default","data","created_at","updated_at" FROM "apay_merchants" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "apay_merchants" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "payment_method_type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_payment_methods_on_customer_id_and_processor_id" ON "apay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_payment_methods" ("id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at","type")
+                     SELECT "id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at","type" FROM "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "payment_method_type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c78c6cb84d"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" ON "pay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_payment_methods" ("id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at" FROM "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_payment_methods_on_customer_id_and_processor_id" ON "apay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_payment_methods" ("id","customer_id","processor_id","default","type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at" FROM "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "pay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c78c6cb84d"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" ON "pay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_payment_methods" ("id","customer_id","processor_id","default","type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","type","data","stripe_account","created_at","updated_at" FROM "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_subscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "name" varchar NOT NULL, "processor_id" varchar NOT NULL, "processor_plan" varchar NOT NULL, "quantity" integer DEFAULT 1 NOT NULL, "status" varchar NOT NULL, "current_period_start" datetime, "current_period_end" datetime, "trial_ends_at" datetime, "ends_at" datetime, "metered" boolean, "pause_behavior" varchar, "pause_starts_at" datetime, "pause_resumes_at" datetime, "application_fee_percent" decimal(8,2), "metadata" json, "data" json, "stripe_account" varchar, "payment_method_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apay_subscriptions_on_pause_starts_at" ON "apay_subscriptions" ("pause_starts_at") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apay_subscriptions_on_metered" ON "apay_subscriptions" ("metered") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_subscriptions_on_customer_id_and_processor_id" ON "apay_subscriptions" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_subscriptions" ("id","customer_id","name","processor_id","processor_plan","quantity","status","current_period_start","current_period_end","trial_ends_at","ends_at","metered","pause_behavior","pause_starts_at","pause_resumes_at","application_fee_percent","metadata","data","stripe_account","payment_method_id","created_at","updated_at","type")
+                     SELECT "id","customer_id","name","processor_id","processor_plan","quantity","status","current_period_start","current_period_end","trial_ends_at","ends_at","metered","pause_behavior","pause_starts_at","pause_resumes_at","application_fee_percent","metadata","data","stripe_account","payment_method_id","created_at","updated_at","type" FROM "pay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_subscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "name" varchar NOT NULL, "processor_id" varchar NOT NULL, "processor_plan" varchar NOT NULL, "quantity" integer DEFAULT 1 NOT NULL, "status" varchar NOT NULL, "current_period_start" datetime, "current_period_end" datetime, "trial_ends_at" datetime, "ends_at" datetime, "metered" boolean, "pause_behavior" varchar, "pause_starts_at" datetime, "pause_resumes_at" datetime, "application_fee_percent" decimal(8,2), "metadata" json, "data" json, "stripe_account" varchar, "payment_method_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b7cd64d378"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_subscriptions_on_customer_id_and_processor_id" ON "pay_subscriptions" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_subscriptions_on_metered" ON "pay_subscriptions" ("metered") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_subscriptions_on_pause_starts_at" ON "pay_subscriptions" ("pause_starts_at") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_subscriptions" ("id","customer_id","name","processor_id","processor_plan","quantity","status","current_period_start","current_period_end","trial_ends_at","ends_at","metered","pause_behavior","pause_starts_at","pause_resumes_at","application_fee_percent","metadata","data","stripe_account","payment_method_id","created_at","updated_at")
+                     SELECT "id","customer_id","name","processor_id","processor_plan","quantity","status","current_period_start","current_period_end","trial_ends_at","ends_at","metered","pause_behavior","pause_starts_at","pause_resumes_at","application_fee_percent","metadata","data","stripe_account","payment_method_id","created_at","updated_at" FROM "apay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "apay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_charges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "subscription_id" bigint, "processor_id" varchar NOT NULL, "amount" integer NOT NULL, "currency" varchar, "application_fee_amount" integer, "amount_refunded" integer, "metadata" json, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_charges_on_customer_id_and_processor_id" ON "apay_charges" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "tindex_apay_charges_on_subscription_id" ON "apay_charges" ("subscription_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_charges" ("id","customer_id","subscription_id","processor_id","amount","currency","application_fee_amount","amount_refunded","metadata","data","stripe_account","created_at","updated_at","type")
+                     SELECT "id","customer_id","subscription_id","processor_id","amount","currency","application_fee_amount","amount_refunded","metadata","data","stripe_account","created_at","updated_at","type" FROM "pay_charges" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_charges" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_charges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "subscription_id" bigint, "processor_id" varchar NOT NULL, "amount" integer NOT NULL, "currency" varchar, "application_fee_amount" integer, "amount_refunded" integer, "metadata" json, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_44a2c276fa"
+FOREIGN KEY ("subscription_id")
+  REFERENCES "pay_subscriptions" ("id")
+, CONSTRAINT "fk_rails_b19d32f835"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_charges_on_subscription_id" ON "pay_charges" ("subscription_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_charges_on_customer_id_and_processor_id" ON "pay_charges" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_charges" ("id","customer_id","subscription_id","processor_id","amount","currency","application_fee_amount","amount_refunded","metadata","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","subscription_id","processor_id","amount","currency","application_fee_amount","amount_refunded","metadata","data","stripe_account","created_at","updated_at" FROM "apay_charges" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "apay_charges" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_customers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "stripe_account" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "type" varchar) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_customers_on_processor_and_processor_id" ON "apay_customers" ("processor", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tpay_customer_owner_index" ON "apay_customers" ("owner_type", "owner_id", "deleted_at") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_customers" ("id","owner_type","owner_id","processor","processor_id","default","data","stripe_account","deleted_at","created_at","updated_at","type")
+                     SELECT "id","owner_type","owner_id","processor","processor_id","default","data","stripe_account","deleted_at","created_at","updated_at","type" FROM "pay_customers" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_customers" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "pay_customers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "stripe_account" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "pay_customer_owner_index" ON "pay_customers" ("owner_type", "owner_id", "deleted_at") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_customers_on_processor_and_processor_id" ON "pay_customers" ("processor", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "pay_customers" ("id","owner_type","owner_id","processor","processor_id","default","data","stripe_account","deleted_at","created_at","updated_at")
+                     SELECT "id","owner_type","owner_id","processor","processor_id","default","data","stripe_account","deleted_at","created_at","updated_at" FROM "apay_customers" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "apay_customers" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20250328150903' /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+Migrating to CreatePayTables (20250328150902)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE "pay_webhooks" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_charges_on_customer_id_and_processor_id" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_charges" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_subscriptions_on_pause_starts_at" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mDROP INDEX "index_pay_subscriptions_on_metered" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mDROP INDEX "index_pay_subscriptions_on_customer_id_and_processor_id" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_subscriptions" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_merchants_on_owner_type_and_owner_id_and_processor" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_merchants" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "index_pay_customers_on_processor_and_processor_id" /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mDROP INDEX "pay_customer_owner_index" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE "pay_customers" /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20250328150902' /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+Migrating to CreateUsers (20250328150807)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE "users" /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Destroy (0.0ms)[0m  [1m[31mDELETE FROM "schema_migrations" WHERE "schema_migrations"."version" = '20250328150807' /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+Migrating to CreateUsers (20250328150807)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar, "first_name" varchar, "last_name" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250328150807') RETURNING "version" /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+Migrating to CreatePayTables (20250328150902)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TABLE "pay_customers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "stripe_account" varchar, "deleted_at" datetime, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "pay_customer_owner_index" ON "pay_customers" ("owner_type", "owner_id", "deleted_at") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_customers_on_processor_and_processor_id" ON "pay_customers" ("processor", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "pay_merchants" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_type" varchar, "owner_id" bigint, "processor" varchar NOT NULL, "processor_id" varchar, "default" boolean, "data" json, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_merchants_on_owner_type_and_owner_id_and_processor" ON "pay_merchants" ("owner_type", "owner_id", "processor") /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c78c6cb84d"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" ON "pay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_subscriptions" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "name" varchar NOT NULL, "processor_id" varchar NOT NULL, "processor_plan" varchar NOT NULL, "quantity" integer DEFAULT 1 NOT NULL, "status" varchar NOT NULL, "current_period_start" datetime, "current_period_end" datetime, "trial_ends_at" datetime, "ends_at" datetime, "metered" boolean, "pause_behavior" varchar, "pause_starts_at" datetime, "pause_resumes_at" datetime, "application_fee_percent" decimal(8,2), "metadata" json, "data" json, "stripe_account" varchar, "payment_method_id" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b7cd64d378"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_subscriptions_on_customer_id_and_processor_id" ON "pay_subscriptions" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_pay_subscriptions_on_metered" ON "pay_subscriptions" ("metered") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_subscriptions_on_pause_starts_at" ON "pay_subscriptions" ("pause_starts_at") /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_charges" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "subscription_id" bigint, "processor_id" varchar NOT NULL, "amount" integer NOT NULL, "currency" varchar, "application_fee_amount" integer, "amount_refunded" integer, "metadata" json, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_b19d32f835"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+, CONSTRAINT "fk_rails_44a2c276fa"
+FOREIGN KEY ("subscription_id")
+  REFERENCES "pay_subscriptions" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_pay_charges_on_subscription_id" ON "pay_charges" ("subscription_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_charges_on_customer_id_and_processor_id" ON "pay_charges" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE TABLE "pay_webhooks" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "processor" varchar, "event_type" varchar, "event" json, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250328150902') RETURNING "version" /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+Migrating to AddPayStiColumns (20250328150903)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='Dummy'*/[0m
+  [1m[35m (1.1ms)[0m  [1m[35mALTER TABLE "pay_customers" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[35m (0.2ms)[0m  [1m[35mALTER TABLE "pay_charges" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "pay_subscriptions" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA foreign_keys /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "apay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "payment_method_type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "tindex_apay_payment_methods_on_customer_id_and_processor_id" ON "apay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "apay_payment_methods" ("id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","type","data","stripe_account","created_at","updated_at" FROM "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "pay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "pay_payment_methods" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "customer_id" bigint NOT NULL, "processor_id" varchar NOT NULL, "default" boolean, "payment_method_type" varchar, "data" json, "stripe_account" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_c78c6cb84d"
+FOREIGN KEY ("customer_id")
+  REFERENCES "pay_customers" ("id")
+) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_pay_payment_methods_on_customer_id_and_processor_id" ON "pay_payment_methods" ("customer_id", "processor_id") /*application='Dummy'*/[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "pay_payment_methods" ("id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at")
+                     SELECT "id","customer_id","processor_id","default","payment_method_type","data","stripe_account","created_at","updated_at" FROM "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "apay_payment_methods" /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0 /*application='Dummy'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1 /*application='Dummy'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "pay_payment_methods" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mALTER TABLE "pay_merchants" ADD "type" varchar /*application='Dummy'*/[0m
+  [1m[36mPay::Customer Load (0.0ms)[0m  [1m[34mSELECT "pay_customers".* FROM "pay_customers" ORDER BY "pay_customers"."id" ASC LIMIT 1000 /*application='Dummy'*/[0m
+  [1m[36mPay::Merchant Load (0.0ms)[0m  [1m[34mSELECT "pay_merchants".* FROM "pay_merchants" ORDER BY "pay_merchants"."id" ASC LIMIT 1000 /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250328150903') RETURNING "version" /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m

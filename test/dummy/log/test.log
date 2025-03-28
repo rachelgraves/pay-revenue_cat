@@ -1,0 +1,247 @@
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
+----------------------------------------------------------------------
+Started GET "/pay-revenuecat/test" for 127.0.0.1 at 2025-03-28 13:10:11 +0000
+  
+ActionController::RoutingError (No route matches [GET] "/pay-revenuecat/test"):
+  
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:35:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.1.12) lib/rack/method_override.rb:28:in 'Rack::MethodOverride#call'
+rack (3.1.12) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in 'ActiveSupport::Cache::Strategy::LocalCache::Middleware#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.1.12) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+railties (8.0.2) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+rack-test (2.2.0) lib/rack/test.rb:360:in 'Rack::Test::Session#process_request'
+rack-test (2.2.0) lib/rack/test.rb:153:in 'Rack::Test::Session#request'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:297:in 'ActionDispatch::Integration::Session#process'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:19:in 'ActionDispatch::Integration::RequestHelpers#get'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:388:in 'ActionDispatch::Integration::Runner#get'
+/Users/rachelgraves/Github/pay-revenuecat/test/pay/revenuecat/engine_test.rb:13:in 'block in <class:EngineTest>'
+minitest (5.25.5) lib/minitest/test.rb:94:in 'block (2 levels) in Minitest::Test#run'
+minitest (5.25.5) lib/minitest/test.rb:190:in 'Minitest::Test#capture_exceptions'
+minitest (5.25.5) lib/minitest/test.rb:89:in 'block in Minitest::Test#run'
+minitest (5.25.5) lib/minitest.rb:368:in 'Minitest::Runnable#time_it'
+minitest (5.25.5) lib/minitest/test.rb:88:in 'Minitest::Test#run'
+activesupport (8.0.2) lib/active_support/executor/test_helper.rb:5:in 'block in ActiveSupport::Executor::TestHelper#run'
+activesupport (8.0.2) lib/active_support/execution_wrapper.rb:104:in 'ActiveSupport::ExecutionWrapper.perform'
+activesupport (8.0.2) lib/active_support/executor/test_helper.rb:5:in 'ActiveSupport::Executor::TestHelper#run'
+minitest (5.25.5) lib/minitest.rb:1208:in 'Minitest.run_one_method'
+minitest (5.25.5) lib/minitest.rb:447:in 'Minitest::Runnable.run_one_method'
+minitest (5.25.5) lib/minitest.rb:434:in 'block (2 levels) in Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:430:in 'Array#each'
+minitest (5.25.5) lib/minitest.rb:430:in 'block in Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:472:in 'Minitest::Runnable.on_signal'
+minitest (5.25.5) lib/minitest.rb:459:in 'Minitest::Runnable.with_info_handler'
+minitest (5.25.5) lib/minitest.rb:429:in 'Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:332:in 'block in Minitest.__run'
+minitest (5.25.5) lib/minitest.rb:332:in 'Array#map'
+minitest (5.25.5) lib/minitest.rb:332:in 'Minitest.__run'
+minitest (5.25.5) lib/minitest.rb:288:in 'Minitest.run'
+minitest (5.25.5) lib/minitest.rb:86:in 'block in Minitest.autorun'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
+----------------------------------------------------------------------
+Started GET "/pay-revenuecat/test" for 127.0.0.1 at 2025-03-28 13:14:09 +0000
+  
+ActionController::RoutingError (uninitialized constant TestController)
+Caused by: ActionDispatch::MissingController (uninitialized constant TestController)
+Caused by: NameError (uninitialized constant TestController)
+
+Information for: ActionController::RoutingError (uninitialized constant TestController):
+  
+
+Information for cause: ActionDispatch::MissingController (uninitialized constant TestController):
+  
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:102:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+railties (8.0.2) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+railties (8.0.2) lib/rails/railtie.rb:226:in 'Kernel#public_send'
+railties (8.0.2) lib/rails/railtie.rb:226:in 'Rails::Railtie.method_missing'
+actionpack (8.0.2) lib/action_dispatch/routing/mapper.rb:33:in 'block in <class:Constraints>'
+actionpack (8.0.2) lib/action_dispatch/routing/mapper.rb:62:in 'ActionDispatch::Routing::Mapper::Constraints#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.1.12) lib/rack/tempfile_reaper.rb:20:in 'Rack::TempfileReaper#call'
+rack (3.1.12) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.1.12) lib/rack/conditional_get.rb:31:in 'Rack::ConditionalGet#call'
+rack (3.1.12) lib/rack/head.rb:15:in 'Rack::Head#call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in 'ActionDispatch::PermissionsPolicy::Middleware#call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in 'ActionDispatch::ContentSecurityPolicy::Middleware#call'
+rack-session (2.1.0) lib/rack/session/abstract/id.rb:274:in 'Rack::Session::Abstract::Persisted#context'
+rack-session (2.1.0) lib/rack/session/abstract/id.rb:268:in 'Rack::Session::Abstract::Persisted#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in 'ActionDispatch::Cookies#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.1.12) lib/rack/method_override.rb:28:in 'Rack::MethodOverride#call'
+rack (3.1.12) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in 'ActiveSupport::Cache::Strategy::LocalCache::Middleware#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.1.12) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+railties (8.0.2) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+rack-test (2.2.0) lib/rack/test.rb:360:in 'Rack::Test::Session#process_request'
+rack-test (2.2.0) lib/rack/test.rb:153:in 'Rack::Test::Session#request'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:297:in 'ActionDispatch::Integration::Session#process'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:19:in 'ActionDispatch::Integration::RequestHelpers#get'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:388:in 'ActionDispatch::Integration::Runner#get'
+/Users/rachelgraves/Github/pay-revenuecat/test/pay/revenuecat/engine_test.rb:13:in 'block in <class:EngineTest>'
+minitest (5.25.5) lib/minitest/test.rb:94:in 'block (2 levels) in Minitest::Test#run'
+minitest (5.25.5) lib/minitest/test.rb:190:in 'Minitest::Test#capture_exceptions'
+minitest (5.25.5) lib/minitest/test.rb:89:in 'block in Minitest::Test#run'
+minitest (5.25.5) lib/minitest.rb:368:in 'Minitest::Runnable#time_it'
+minitest (5.25.5) lib/minitest/test.rb:88:in 'Minitest::Test#run'
+activesupport (8.0.2) lib/active_support/executor/test_helper.rb:5:in 'block in ActiveSupport::Executor::TestHelper#run'
+activesupport (8.0.2) lib/active_support/execution_wrapper.rb:104:in 'ActiveSupport::ExecutionWrapper.perform'
+activesupport (8.0.2) lib/active_support/executor/test_helper.rb:5:in 'ActiveSupport::Executor::TestHelper#run'
+minitest (5.25.5) lib/minitest.rb:1208:in 'Minitest.run_one_method'
+minitest (5.25.5) lib/minitest.rb:447:in 'Minitest::Runnable.run_one_method'
+minitest (5.25.5) lib/minitest.rb:434:in 'block (2 levels) in Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:430:in 'Array#each'
+minitest (5.25.5) lib/minitest.rb:430:in 'block in Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:472:in 'Minitest::Runnable.on_signal'
+minitest (5.25.5) lib/minitest.rb:459:in 'Minitest::Runnable.with_info_handler'
+minitest (5.25.5) lib/minitest.rb:429:in 'Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:332:in 'block in Minitest.__run'
+minitest (5.25.5) lib/minitest.rb:332:in 'Array#map'
+minitest (5.25.5) lib/minitest.rb:332:in 'Minitest.__run'
+minitest (5.25.5) lib/minitest.rb:288:in 'Minitest.run'
+minitest (5.25.5) lib/minitest.rb:86:in 'block in Minitest.autorun'
+
+Information for cause: NameError (uninitialized constant TestController):
+  
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in 'Module#const_get'
+activesupport (8.0.2) lib/active_support/inflector/methods.rb:290:in 'ActiveSupport::Inflector#constantize'
+activesupport (8.0.2) lib/active_support/core_ext/string/inflections.rb:74:in 'String#constantize'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:99:in 'ActionDispatch::Request#controller_class_for'
+actionpack (8.0.2) lib/action_dispatch/http/request.rb:91:in 'ActionDispatch::Request#controller_class'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:61:in 'ActionDispatch::Routing::RouteSet::Dispatcher#controller'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:48:in 'ActionDispatch::Routing::RouteSet::Dispatcher#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+railties (8.0.2) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+railties (8.0.2) lib/rails/railtie.rb:226:in 'Kernel#public_send'
+railties (8.0.2) lib/rails/railtie.rb:226:in 'Rails::Railtie.method_missing'
+actionpack (8.0.2) lib/action_dispatch/routing/mapper.rb:33:in 'block in <class:Constraints>'
+actionpack (8.0.2) lib/action_dispatch/routing/mapper.rb:62:in 'ActionDispatch::Routing::Mapper::Constraints#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:53:in 'block in ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:133:in 'block in ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'Array#each'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:126:in 'ActionDispatch::Journey::Router#find_routes'
+actionpack (8.0.2) lib/action_dispatch/journey/router.rb:34:in 'ActionDispatch::Journey::Router#serve'
+actionpack (8.0.2) lib/action_dispatch/routing/route_set.rb:908:in 'ActionDispatch::Routing::RouteSet#call'
+railties (8.0.2) lib/rails/engine/lazy_route_set.rb:68:in 'Rails::Engine::LazyRouteSet#call'
+rack (3.1.12) lib/rack/tempfile_reaper.rb:20:in 'Rack::TempfileReaper#call'
+rack (3.1.12) lib/rack/etag.rb:29:in 'Rack::ETag#call'
+rack (3.1.12) lib/rack/conditional_get.rb:31:in 'Rack::ConditionalGet#call'
+rack (3.1.12) lib/rack/head.rb:15:in 'Rack::Head#call'
+actionpack (8.0.2) lib/action_dispatch/http/permissions_policy.rb:38:in 'ActionDispatch::PermissionsPolicy::Middleware#call'
+actionpack (8.0.2) lib/action_dispatch/http/content_security_policy.rb:38:in 'ActionDispatch::ContentSecurityPolicy::Middleware#call'
+rack-session (2.1.0) lib/rack/session/abstract/id.rb:274:in 'Rack::Session::Abstract::Persisted#context'
+rack-session (2.1.0) lib/rack/session/abstract/id.rb:268:in 'Rack::Session::Abstract::Persisted#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/cookies.rb:706:in 'ActionDispatch::Cookies#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:31:in 'block in ActionDispatch::Callbacks#call'
+activesupport (8.0.2) lib/active_support/callbacks.rb:100:in 'ActiveSupport::Callbacks#run_callbacks'
+actionpack (8.0.2) lib/action_dispatch/middleware/callbacks.rb:30:in 'ActionDispatch::Callbacks#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/actionable_exceptions.rb:18:in 'ActionDispatch::ActionableExceptions#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/debug_exceptions.rb:31:in 'ActionDispatch::DebugExceptions#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/show_exceptions.rb:32:in 'ActionDispatch::ShowExceptions#call'
+railties (8.0.2) lib/rails/rack/logger.rb:41:in 'Rails::Rack::Logger#call_app'
+railties (8.0.2) lib/rails/rack/logger.rb:29:in 'Rails::Rack::Logger#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/remote_ip.rb:96:in 'ActionDispatch::RemoteIp#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/request_id.rb:34:in 'ActionDispatch::RequestId#call'
+rack (3.1.12) lib/rack/method_override.rb:28:in 'Rack::MethodOverride#call'
+rack (3.1.12) lib/rack/runtime.rb:24:in 'Rack::Runtime#call'
+activesupport (8.0.2) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in 'ActiveSupport::Cache::Strategy::LocalCache::Middleware#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/executor.rb:16:in 'ActionDispatch::Executor#call'
+actionpack (8.0.2) lib/action_dispatch/middleware/static.rb:27:in 'ActionDispatch::Static#call'
+rack (3.1.12) lib/rack/sendfile.rb:114:in 'Rack::Sendfile#call'
+railties (8.0.2) lib/rails/engine.rb:535:in 'Rails::Engine#call'
+rack-test (2.2.0) lib/rack/test.rb:360:in 'Rack::Test::Session#process_request'
+rack-test (2.2.0) lib/rack/test.rb:153:in 'Rack::Test::Session#request'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:297:in 'ActionDispatch::Integration::Session#process'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:19:in 'ActionDispatch::Integration::RequestHelpers#get'
+actionpack (8.0.2) lib/action_dispatch/testing/integration.rb:388:in 'ActionDispatch::Integration::Runner#get'
+/Users/rachelgraves/Github/pay-revenuecat/test/pay/revenuecat/engine_test.rb:13:in 'block in <class:EngineTest>'
+minitest (5.25.5) lib/minitest/test.rb:94:in 'block (2 levels) in Minitest::Test#run'
+minitest (5.25.5) lib/minitest/test.rb:190:in 'Minitest::Test#capture_exceptions'
+minitest (5.25.5) lib/minitest/test.rb:89:in 'block in Minitest::Test#run'
+minitest (5.25.5) lib/minitest.rb:368:in 'Minitest::Runnable#time_it'
+minitest (5.25.5) lib/minitest/test.rb:88:in 'Minitest::Test#run'
+activesupport (8.0.2) lib/active_support/executor/test_helper.rb:5:in 'block in ActiveSupport::Executor::TestHelper#run'
+activesupport (8.0.2) lib/active_support/execution_wrapper.rb:104:in 'ActiveSupport::ExecutionWrapper.perform'
+activesupport (8.0.2) lib/active_support/executor/test_helper.rb:5:in 'ActiveSupport::Executor::TestHelper#run'
+minitest (5.25.5) lib/minitest.rb:1208:in 'Minitest.run_one_method'
+minitest (5.25.5) lib/minitest.rb:447:in 'Minitest::Runnable.run_one_method'
+minitest (5.25.5) lib/minitest.rb:434:in 'block (2 levels) in Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:430:in 'Array#each'
+minitest (5.25.5) lib/minitest.rb:430:in 'block in Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:472:in 'Minitest::Runnable.on_signal'
+minitest (5.25.5) lib/minitest.rb:459:in 'Minitest::Runnable.with_info_handler'
+minitest (5.25.5) lib/minitest.rb:429:in 'Minitest::Runnable.run'
+minitest (5.25.5) lib/minitest.rb:332:in 'block in Minitest.__run'
+minitest (5.25.5) lib/minitest.rb:332:in 'Array#map'
+minitest (5.25.5) lib/minitest.rb:332:in 'Minitest.__run'
+minitest (5.25.5) lib/minitest.rb:288:in 'Minitest.run'
+minitest (5.25.5) lib/minitest.rb:86:in 'block in Minitest.autorun'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION[0m

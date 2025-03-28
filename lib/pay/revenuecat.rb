@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "revenuecat/version"
-require "pay/revenuecat/engine"
+require_relative "revenuecat/engine"
 
 module Pay
   module Revenuecat

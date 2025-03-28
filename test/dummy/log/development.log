@@ -1,0 +1,90 @@
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
+----------------------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
+----------------------------------------------------------------------
+[ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked hosts: www.example.com
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_pay_processor_is_enabled
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+--------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_is_defined_and_loaded
+--------------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN deferred TRANSACTION /*application='Dummy'*/[0m
+----------------------------------------------------------------------
+Pay::Revenuecat::EngineTest: test_engine_route_is_mounted_in_dummy_app
+----------------------------------------------------------------------
+[ActionDispatch::HostAuthorization::DefaultResponseApp] Blocked hosts: www.example.com
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION /*application='Dummy'*/[0m

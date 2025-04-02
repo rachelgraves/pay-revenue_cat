@@ -6,6 +6,9 @@ $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 require "pay/revenuecat"
 
 require "minitest/autorun"
+require "minitest/reporters"
+
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 require File.expand_path("dummy/config/environment.rb", __dir__)
 ActiveRecord::Migrator.migrations_paths = [

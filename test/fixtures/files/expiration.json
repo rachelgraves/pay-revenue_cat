@@ -1,0 +1,44 @@
+{
+  "api_version": "1.0",
+  "event": {
+    "aliases": [
+      "0e000000-0000-000a-b000-0000000c0dcd"
+    ],
+    "app_id": "app00a00f00ae",
+    "app_user_id": "0e000000-0000-000a-b000-0000000c0dcd",
+    "commission_percentage": 0.2489,
+    "country_code": "GB",
+    "currency": "GBP",
+    "entitlement_id": null,
+    "entitlement_ids": [
+      "premium"
+    ],
+    "environment": "SANDBOX",
+    "event_timestamp_ms": 1740141560944,
+    "expiration_at_ms": 1740141539000,
+    "expiration_reason": "UNSUBSCRIBE",
+    "id": "0EC000B0-DB00-0000-A0D0-DA000000BF0E",
+    "is_family_share": false,
+    "metadata": null,
+    "offer_code": null,
+    "original_app_user_id": "0e000000-0000-000a-b000-0000000c0dcd",
+    "original_transaction_id": "2000000000000000",
+    "period_type": "NORMAL",
+    "presented_offering_id": "company.subscription",
+    "price": 0,
+    "price_in_purchased_currency": 0,
+    "product_id": "monthly",
+    "purchased_at_ms": 1740141359000,
+    "renewal_number": 20,
+    "store": "APP_STORE",
+    "subscriber_attributes": {
+      "$attConsentStatus": {
+        "updated_at_ms": 1740139832856,
+        "value": "notDetermined"
+      }
+    },
+    "takehome_percentage": 0.7,
+    "tax_percentage": 0.1705,
+    "transaction_id": "2000000000000009"
+  }
+}

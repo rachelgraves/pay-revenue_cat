@@ -9,6 +9,41 @@ module Pay
       @pay_user = users(:revenuecat)
     end
 
+    test "should handle INITIAL_PURCHASE event" do
+      assert_difference "Pay::Webhook.count" do
+        assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
+          post webhooks_revenuecat_path, params: initial_purchase_params, as: :json
+          assert_response :success
+        end
+      end
+    end
+
+    test "should handle RENEWAL event" do
+      assert_difference "Pay::Webhook.count" do
+        assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
+          post webhooks_revenuecat_path, params: renewal_params, as: :json
+          assert_response :success
+        end
+      end
+    end
+
+    test "should handle CANCELLATION event" do
+      assert_difference "Pay::Webhook.count" do
+        assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
+          post webhooks_revenuecat_path, params: cancellation_params, as: :json
+          assert_response :success
+        end
+      end
+    end
+
+    test "should handle EXPIRATION event" do
+      assert_difference "Pay::Webhook.count" do
+        assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
+          post webhooks_revenuecat_path, params: expiration_params, as: :json
+          assert_response :success
+        end
+      end
+    end
     # test "should handle revenuecat post requests" do
     #   post webhooks_revenuecat_path
     #   assert_response :bad_request
@@ -31,9 +66,27 @@ module Pay
 
     private
 
-    def revenuecat_params
+    def initial_purchase_params
       JSON.parse(
         file_fixture("initial_purchase.json").read
+      )
+    end
+
+    def renewal_params
+      JSON.parse(
+        file_fixture("renewal.json").read
+      )
+    end
+
+    def expiration_params
+      JSON.parse(
+        file_fixture("expiration.json").read
+      )
+    end
+
+    def cancellation_params
+      JSON.parse(
+        file_fixture("cancellation.json").read
       )
     end
   end

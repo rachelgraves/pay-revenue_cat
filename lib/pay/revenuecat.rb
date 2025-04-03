@@ -9,6 +9,7 @@ module Pay
 
     module Webhooks
       autoload :InitialPurchase, "pay/revenuecat/webhooks/initial_purchase"
+      autoload :Renewal, "pay/revenuecat/webhooks/renewal"
     end
 
     def self.enabled?

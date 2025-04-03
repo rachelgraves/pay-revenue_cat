@@ -1,0 +1,45 @@
+{
+  "api_version": "1.0",
+  "event": {
+    "aliases": [
+      "0e000000-0000-000a-b000-0000000c0dcd"
+    ],
+    "app_id": "app00a00f00ae",
+    "app_user_id": "0e000000-0000-000a-b000-0000000c0dcd",
+    "cancel_reason": "BILLING_ERROR",
+    "commission_percentage": 0.125,
+    "country_code": "GB",
+    "currency": "GBP",
+    "entitlement_id": null,
+    "entitlement_ids": [
+      "premium"
+    ],
+    "environment": "SANDBOX",
+    "event_timestamp_ms": 1740571889782,
+    "expiration_at_ms": 1740571667951,
+    "id": "000B00AD-00CA-000C-B0ED-000000000F70",
+    "is_family_share": false,
+    "metadata": null,
+    "offer_code": null,
+    "original_app_user_id": "0e000000-0000-000a-b000-0000000c0dcd",
+    "original_transaction_id": "GPA.0000-0000-0000-00000",
+    "period_type": "NORMAL",
+    "presented_offering_id": "company.subscription",
+    "price": 0,
+    "price_in_purchased_currency": 0,
+    "product_id": "company.subscription:monthly",
+    "purchased_at_ms": 1740571367951,
+    "renewal_number": 7,
+    "store": "PLAY_STORE",
+    "subscriber_attributes": {
+      "$attConsentStatus": {
+        "updated_at_ms": 1740139832856,
+        "value": "notDetermined"
+      }
+    },
+    "takehome_percentage": 0.85,
+    "tax_percentage": 0.1667,
+    "transaction_id": "GPA.0000-0000-0000-00000..5",
+    "type": "CANCELLATION"
+  }
+}

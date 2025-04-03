@@ -9,15 +9,28 @@ class Pay::Revenuecat::Webhooks::InitialPurchaseTest < ActiveSupport::TestCase
   # end
   test "sets payment processor to revenuecat" do
     assert_difference "Pay::Charge.count" do
-      Pay::Revenuecat::Webhooks::InitialPurchase.new.call(revenuecat_params["event"])
+      Pay::Revenuecat::Webhooks::InitialPurchase.new.call(
+        initial_purchase_params
+      )
     end
+
+    subscription = @pay_customer.reload.subscriptions.first
+
+    assert_equal(
+      initial_purchase_params["presented_offering_id"],
+      subscription.name
+    )
+    assert_equal(
+      initial_purchase_params["product_id"],
+      subscription.processor_plan
+    )
   end
 
   private
 
-  def revenuecat_params
+  def initial_purchase_params
     JSON.parse(
       file_fixture("initial_purchase.json").read
-    )
+    )["event"]
   end
 end

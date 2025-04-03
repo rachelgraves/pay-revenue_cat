@@ -11,6 +11,7 @@ module Pay
           )
 
           args = {
+            name: event["presented_offering_id"],
             plan: event["product_id"],
             processor_id: event["original_transaction_id"], # seems to be the closest thing I can find to a subscription id across all events
             current_period_start: Time.at(event["purchased_at_ms"].to_i / 1000),

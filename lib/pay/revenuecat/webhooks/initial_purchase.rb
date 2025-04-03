@@ -10,6 +10,10 @@ module Pay
             processor_id: event["app_user_id"]
           )
 
+          data = {
+            store: event["store"]
+          }
+
           args = {
             name: event["presented_offering_id"],
             plan: event["product_id"],
@@ -17,6 +21,7 @@ module Pay
             current_period_start: Time.at(event["purchased_at_ms"].to_i / 1000),
             current_period_end: Time.at(event["expiration_at_ms"].to_i / 1000),
             metadata: event["metadata"],
+            data: data,
             metered: false, # TODO: Handle metered billing
             status: :active # TODO: set "on_trial", "active", "canceled"
             # application_fee_percent: nil,

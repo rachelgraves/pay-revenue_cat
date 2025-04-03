@@ -1,8 +1,25 @@
 AllCops:
   TargetRubyVersion: 3.1
 
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
+  Exclude:
+    - db/migrate/*
+    - lib/pay/version.rb
+    - test/dummy/**/*
+    - test/models/subscription_test.rb
+    - test/pay/billable_test.rb
+    - test/test_helper.rb
 
-Style/StringLiteralsInInterpolation:
-  EnforcedStyle: double_quotes
+Documentation:
+  Enabled: false
+
+ClassAndModuleChildren:
+  Enabled: false
+
+ClassVars:
+  Enabled: false
+
+SpecialGlobalVars:
+  Enabled: false
+
+AmbiguousBlockAssociation:
+  Enabled: false

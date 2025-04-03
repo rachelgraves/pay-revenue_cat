@@ -39,6 +39,7 @@
     },
     "takehome_percentage": 0.7,
     "tax_percentage": 0.1705,
-    "transaction_id": "2000000000000009"
+    "transaction_id": "2000000000000009",
+    "type": "EXPIRATION"
   }
 }

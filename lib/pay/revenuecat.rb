@@ -19,9 +19,11 @@ module Pay
     end
 
     def self.configure_webhooks
-      # https://docs.asaas.com/docs/webhook-para-cobrancas
       Pay::Webhooks.configure do |events|
         events.subscribe "revenuecat.INITIAL_PURCHASE", Pay::Revenuecat::Webhooks::InitialPurchase.new
+        events.subscribe "revenuecat.RENEWAL", Pay::Revenuecat::Webhooks::Renewal.new
+        events.subscribe "revenuecat.CANCELLATION", Pay::Revenuecat::Webhooks::Cancellation.new
+        events.subscribe "revenuecat.EXPIRATION", Pay::Revenuecat::Webhooks::Expiration.new
       end
     end
   end

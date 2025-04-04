@@ -24,7 +24,7 @@ module Pay
             metadata: event["metadata"],
             data: data,
             metered: false,
-            status: :active # TODO: set "on_trial", "active", "canceled"
+            status: :active
           }
 
           payment_processor = pay_customer.owner.payment_processor

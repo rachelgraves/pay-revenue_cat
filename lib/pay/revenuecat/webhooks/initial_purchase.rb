@@ -5,9 +5,8 @@ module Pay
     module Webhooks
       class InitialPurchase
         def call(event)
-          pay_customer = Pay::Customer.find_by!(
-            processor: :revenuecat,
-            processor_id: event["app_user_id"]
+          pay_customer = User.find(event["app_user_id"]).set_payment_processor(
+            :revenuecat, processor_id: event["app_user_id"]
           )
 
           data = {

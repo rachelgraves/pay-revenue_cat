@@ -3,6 +3,10 @@
 module Pay
   module Webhooks
     class RevenuecatController < Pay::ApplicationController
+      if Rails.application.config.action_controller.default_protect_from_forgery
+        skip_before_action :verify_authenticity_token
+      end
+
       def create
         queue_event(verify_params)
         head :ok

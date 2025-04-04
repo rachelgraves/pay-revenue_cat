@@ -15,7 +15,10 @@ class Pay::Revenuecat::Webhooks::ExpirationTest < ActiveSupport::TestCase
       current_period_start: 27.days.ago,
       current_period_end: 1.month.from_now.beginning_of_month,
       status: :active,
-      customer: @pay_customer
+      customer: @pay_customer,
+      data: {
+        store: payload["event"]["store"]
+      }
     )
   end
 
@@ -33,6 +36,8 @@ class Pay::Revenuecat::Webhooks::ExpirationTest < ActiveSupport::TestCase
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
 
+    assert_equal "APP_STORE", subscription.data["store"]
+
     Pay::Revenuecat::Webhooks::Expiration.new.call(
       expiration_params["event"]
     )
@@ -41,6 +46,8 @@ class Pay::Revenuecat::Webhooks::ExpirationTest < ActiveSupport::TestCase
 
     assert_equal "canceled", subscription.status
     assert_equal Time.at(1_740_141_539), subscription.ends_at
+    assert_equal "APP_STORE", subscription.data["store"]
+    assert_equal "UNSUBSCRIBE", subscription.data["expiration_reason"]
   end
 
   test "android expiration" do

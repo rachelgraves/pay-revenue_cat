@@ -24,6 +24,18 @@ class Pay::Revenuecat::Webhooks::InitialPurchaseTest < ActiveSupport::TestCase
       initial_purchase_params["product_id"],
       subscription.processor_plan
     )
+    assert_equal(
+      initial_purchase_params["metadata"],
+      subscription.metadata
+    )
+    assert_equal(
+      initial_purchase_params["store"],
+      subscription.data["store"]
+    )
+    assert_equal(
+      Time.at(initial_purchase_params["expiration_at_ms"] / 1000),
+      subscription.ends_at
+    )
   end
 
   private

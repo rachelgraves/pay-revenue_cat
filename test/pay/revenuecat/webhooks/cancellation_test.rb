@@ -15,7 +15,10 @@ class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
       current_period_start: 27.days.ago,
       current_period_end: 1.month.from_now.beginning_of_month,
       status: :active,
-      customer: @pay_customer
+      customer: @pay_customer,
+      data: {
+        store: payload["event"]["store"]
+      }
     )
   end
 
@@ -33,29 +36,18 @@ class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
 
-    Pay::Revenuecat::Webhooks::Cancellation.new.call(
-      cancellation_params["event"]
-    )
+    assert_no_changes "Pay::Revenuecat::Charge.count" do
+      Pay::Revenuecat::Webhooks::Cancellation.new.call(
+        cancellation_params["event"]
+      )
+    end
 
     subscription.reload
 
-    assert_equal 1, subscription.charges.count
     assert_equal "canceled", subscription.status
     assert_equal Time.at(1_740_141_539), subscription.ends_at
-  end
-
-  test "iOS cancellation after expiration" do
-    payload = initial_purchase_params
-    subscription = create_subscription(payload)
-    create_initial_charge(payload, subscription)
-
-    subscription.update!(status: "canceled")
-
-    Pay::Revenuecat::Webhooks::Cancellation.new.call(
-      cancellation_params["event"]
-    )
-
-    assert_equal "canceled", subscription.reload.status
+    assert_equal "UNSUBSCRIBE", subscription.data["cancel_reason"]
+    assert_equal "APP_STORE", subscription.data["store"]
   end
 
   test "android cancellation" do

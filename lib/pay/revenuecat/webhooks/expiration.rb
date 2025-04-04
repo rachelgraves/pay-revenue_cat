@@ -9,13 +9,19 @@ module Pay
             :revenuecat, event["original_transaction_id"]
           )
 
+          data = (pay_subscription.data || {}).merge(
+            {
+              expiration_reason: event["expiration_reason"]
+            }
+          )
+
           ends_at = Time.at(event["expiration_at_ms"].to_i / 1000)
 
-          pay_subscription.with_lock do # I added a lock here, donno why they didn't have one
+          pay_subscription.with_lock do
             pay_subscription.update!(
               status: "canceled",
-              ends_at: ends_at
-              # TODO: add an expiration reason?
+              ends_at: ends_at,
+              data: data
             )
           end
         end

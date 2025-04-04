@@ -20,7 +20,6 @@ module Pay
           pay_subscription.with_lock do
             pay_subscription.update!(
               status: (ends_at.future? ? :active : :canceled),
-              trial_ends_at: (ends_at if pay_subscription.trial_ends_at?),
               ends_at: ends_at,
               data: data
             )

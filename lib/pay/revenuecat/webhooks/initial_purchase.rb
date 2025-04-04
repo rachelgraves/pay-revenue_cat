@@ -20,6 +20,7 @@ module Pay
             processor_id: event["original_transaction_id"], # seems to be the closest thing I can find to a subscription id across all events
             current_period_start: Time.at(event["purchased_at_ms"].to_i / 1000),
             current_period_end: Time.at(event["expiration_at_ms"].to_i / 1000),
+            ends_at: Time.at(event["expiration_at_ms"].to_i / 1000),
             metadata: event["metadata"],
             data: data,
             metered: false, # TODO: Handle metered billing

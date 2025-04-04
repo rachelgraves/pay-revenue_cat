@@ -16,7 +16,8 @@ module Pay
             ends_at: Time.at(event["expiration_at_ms"].to_i / 1000)
           }
 
-          pay_subscription.with_lock { pay_subscription.update!(**args) } # locked because Pay does it on Stripe
+          # locked because that's that the Pay gem folks do
+          pay_subscription.with_lock { pay_subscription.update!(**args) }
 
           Pay::Revenuecat::Charge.create!(
             processor_id: event["transaction_id"],
@@ -24,7 +25,7 @@ module Pay
             metadata: event["metadata"],
             customer: Pay::Customer.find_by(
               type: "Pay::Revenuecat::Customer",
-              processor_id: event["app_user_id"] # TODO: should this be
+              processor_id: event["app_user_id"]
             )
           )
         end

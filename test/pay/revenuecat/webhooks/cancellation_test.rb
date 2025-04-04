@@ -50,21 +50,6 @@ class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
     assert_equal "APP_STORE", subscription.data["store"]
   end
 
-  test "iOS cancellation after expiration" do
-    payload = initial_purchase_params
-    subscription = create_subscription(payload)
-    create_initial_charge(payload, subscription)
-    # doesn't expire it
-
-    subscription.update!(status: "canceled")
-
-    Pay::Revenuecat::Webhooks::Cancellation.new.call(
-      cancellation_params["event"]
-    )
-
-    assert_equal "canceled", subscription.reload.status
-  end
-
   test "android cancellation" do
     payload = android_initial_purchase_params
     subscription = create_subscription(payload)

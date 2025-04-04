@@ -10,8 +10,8 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
   def create_subscription(payload)
     Pay::Revenuecat::Subscription.create!(
       name: "todo: Figure out what should go here",
-      processor_plan: payload["event"]["product_id"],
-      processor_id: payload["event"]["original_transaction_id"],
+      processor_plan: payload["product_id"],
+      processor_id: payload["original_transaction_id"],
       current_period_start: 27.days.ago,
       current_period_end: 1.month.from_now.beginning_of_month,
       status: :active,
@@ -22,22 +22,32 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
   def create_initial_charge(payload, subscription)
     Pay::Revenuecat::Charge.create!(
       subscription: subscription,
-      processor_id: payload["event"]["transaction_id"],
+      processor_id: payload["transaction_id"],
       amount: 9.99,
       customer: @pay_customer
     )
   end
 
-  test "iOS renewal: changes current_period_end" do
+  test "iOS renewal: updates subscription attributes" do
     payload = initial_purchase_params
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
 
-    assert_changes -> { subscription.reload.current_period_end } do
-      Pay::Revenuecat::Webhooks::Renewal.new.call(
-        renewal_params["event"]
-      )
-    end
+    Pay::Revenuecat::Webhooks::Renewal.new.call(
+      renewal_params
+    )
+
+    subscription.reload
+
+    assert_equal(
+      Time.at(renewal_params["expiration_at_ms"] / 1000),
+      subscription.current_period_end
+    )
+
+    assert_equal(
+      Time.at(renewal_params["expiration_at_ms"] / 1000),
+      subscription.ends_at
+    )
   end
 
   test "iOS renewal: adds a new charge" do
@@ -47,7 +57,7 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
 
     assert_difference "Pay::Charge.count" do
       Pay::Revenuecat::Webhooks::Renewal.new.call(
-        renewal_params["event"]
+        renewal_params
       )
     end
   end
@@ -60,12 +70,12 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     subscription.update!(status: :cancelled, ends_at: 1.day.ago)
 
     Pay::Revenuecat::Webhooks::Renewal.new.call(
-      renewal_after_cancellation_params["event"]
+      renewal_after_cancellation_params
     )
 
     subscription.reload
     assert_equal "active", subscription.status
-    assert_nil subscription.ends_at
+    assert_equal Time.at(1_740_658_577), subscription.ends_at
     assert_equal Time.at(1_740_658_577), subscription.current_period_end
   end
 
@@ -76,7 +86,7 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
 
     assert_difference "Pay::Charge.count" do
       Pay::Revenuecat::Webhooks::Renewal.new.call(
-        renewal_android_params["event"]
+        renewal_android_params
       )
     end
   end
@@ -104,6 +114,6 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
   end
 
   def parse_fixture(filename)
-    JSON.parse(file_fixture(filename).read)
+    JSON.parse(file_fixture(filename).read)["event"]
   end
 end

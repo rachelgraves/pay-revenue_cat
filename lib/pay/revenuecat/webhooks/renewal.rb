@@ -21,7 +21,7 @@ module Pay
 
           Pay::Revenuecat::Charge.create!(
             processor_id: event["transaction_id"],
-            amount: event["price_in_purchased_currency"],
+            amount: (event["price_in_purchased_currency"] * 100).to_i,
             metadata: event["metadata"],
             customer: Pay::Customer.find_by(
               type: "Pay::Revenuecat::Customer",

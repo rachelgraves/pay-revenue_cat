@@ -62,8 +62,8 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     end
 
     charge = @pay_customer.charges.last
-    assert_equal charge.processor_id, renewal_params["transaction_id"]
-    assert_equal charge.amount, renewal_params["price_in_purchased_currency"]
+    assert_equal renewal_params["transaction_id"], charge.processor_id
+    assert_equal 599, charge.amount
   end
 
   test "iOS renewal: reactivates a cancelled subscription" do

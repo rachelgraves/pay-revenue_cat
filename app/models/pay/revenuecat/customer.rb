@@ -12,7 +12,11 @@ module Pay
         self
       end
 
-      def subscribe(name: Pay.default_product_name, plan: Pay.default_plan_name, **options)
+      def subscribe(
+        name: Pay.default_product_name,
+        plan: Pay.default_plan_name,
+        **options
+      )
         attributes = options.merge(
           name: name,
           processor_plan: plan,

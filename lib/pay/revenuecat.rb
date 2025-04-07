@@ -20,7 +20,7 @@ module Pay
 
     def self.configure_webhooks
       Pay::Webhooks.configure do |events|
-        events.subscribe "revenuecat.INITIAL_PURCHASE", Pay::Revenuecat::Webhooks::InitialPurchase.new
+        events.subscribe "revenuecat.INITIAL_PURCHASE", Pay::Revenuecat::Webhooks::Renewal.new
         events.subscribe "revenuecat.RENEWAL", Pay::Revenuecat::Webhooks::Renewal.new
         events.subscribe "revenuecat.CANCELLATION", Pay::Revenuecat::Webhooks::Cancellation.new
         events.subscribe "revenuecat.EXPIRATION", Pay::Revenuecat::Webhooks::Expiration.new

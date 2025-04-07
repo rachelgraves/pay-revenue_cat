@@ -6,7 +6,8 @@ module Pay
       class InitialPurchase
         def call(event)
           pay_customer = User.find(event["app_user_id"]).set_payment_processor(
-            :revenuecat, processor_id: event["app_user_id"]
+            :revenuecat,
+            processor_id: event["app_user_id"]
           )
 
           data = {
@@ -26,8 +27,7 @@ module Pay
             status: :active
           }
 
-          payment_processor = pay_customer.owner.payment_processor
-          payment_processor.subscribe(**args)
+          pay_customer.subscribe(**args)
 
           Pay::Revenuecat::Charge.create!(
             processor_id: event["transaction_id"],

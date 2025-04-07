@@ -4,6 +4,8 @@ require "test_helper"
 
 class Pay::Revenuecat::Webhooks::ExpirationTest < ActiveSupport::TestCase
   def setup
+    Pay::Revenuecat.integration_model_klass = "User"
+
     @pay_customer = pay_customers(:revenuecat)
   end
 

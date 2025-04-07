@@ -9,6 +9,12 @@ module Pay
             event["app_user_id"]
           ).payment_processor
 
+          if pay_customer.processor_id.blank?
+            pay_customer.update!(
+              processor_id: event["original_app_user_id"]
+            )
+          end
+
           data = {
             store: event["store"]
           }

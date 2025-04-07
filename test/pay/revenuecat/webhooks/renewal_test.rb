@@ -29,7 +29,55 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     )
   end
 
-  test "iOS renewal: updates subscription attributes" do
+  test "INITIAL_PURCHASE -> no customer exists -> sets the payment processor to revenuecat" do
+    @pay_customer.destroy
+
+    assert_changes -> { Pay::Revenuecat::Customer.count } do
+      Pay::Revenuecat::Webhooks::Renewal.new.call(
+        initial_purchase_params
+      )
+    end
+
+    @owner.reload
+
+    assert_equal(
+      @owner.id,
+      @owner.payment_processor.processor_id.to_i
+    )
+  end
+
+  test "INITIAL_PURCHASE -> customer exists -> subscribes the customer" do
+    assert_difference "Pay::Charge.count" do
+      Pay::Revenuecat::Webhooks::Renewal.new.call(
+        initial_purchase_params
+      )
+    end
+
+    subscription = @pay_customer.reload.subscriptions.first
+
+    assert_equal(
+      initial_purchase_params["presented_offering_id"],
+      subscription.name
+    )
+    assert_equal(
+      initial_purchase_params["product_id"],
+      subscription.processor_plan
+    )
+    assert_equal(
+      initial_purchase_params["metadata"],
+      subscription.metadata
+    )
+    assert_equal(
+      initial_purchase_params["store"],
+      subscription.data["store"]
+    )
+    assert_equal(
+      Time.at(initial_purchase_params["expiration_at_ms"] / 1000),
+      subscription.ends_at
+    )
+  end
+
+  test "RENEWAL -> iOS -> updates subscription attributes" do
     payload = initial_purchase_params
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
@@ -51,7 +99,7 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     )
   end
 
-  test "iOS renewal: adds a new charge to the customer" do
+  test "RENEWAL -> iOS -> adds a new charge to the customer" do
     payload = initial_purchase_params
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
@@ -67,7 +115,7 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     assert_equal 599, charge.amount
   end
 
-  test "iOS renewal: reactivates a cancelled subscription" do
+  test "RENEWAL -> iOS -> reactivates a cancelled subscription" do
     payload = initial_purchase_params
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
@@ -88,7 +136,7 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
   # is if you have already had a subscriotion expire and start a new one
   # revenuecat send a renewal event. If you're re-seeding your database this
   # can be very annoying.
-  test "iOS renewal: creates a new subscription if one does not exist" do
+  test "RENEWAL -> iOS -> creates a new subscription if one does not exist" do
     assert_difference "Pay::Revenuecat::Subscription.count" do
       Pay::Revenuecat::Webhooks::Renewal.new.call(
         renewal_after_cancellation_params
@@ -102,7 +150,7 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     assert_equal Time.at(1_740_658_577), subscription.current_period_end
   end
 
-  test "Android renewal: adds a charge" do
+  test "RENEWAL -> Android -> adds a charge" do
     payload = android_initial_purchase_params
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)

@@ -6,8 +6,9 @@ module Pay
     include Pay::Revenuecat::Engine.routes.url_helpers
 
     def setup
-      @pay_user = users(:revenuecat)
+      @owner = users(:revenuecat)
       @pay_customer = pay_customers(:revenuecat)
+      @pay_customer.update!(processor_id: @owner.id)
     end
 
     test "should handle INITIAL_PURCHASE event" do
@@ -70,25 +71,6 @@ module Pay
         perform_enqueued_jobs
       end
     end
-    # test "should handle revenuecat post requests" do
-    #   post webhooks_revenuecat_path
-    #   assert_response :bad_request
-    # end
-    #
-    # test "should parse a revenuecat webhook" do
-    #   # pay_customer = pay_customers(:revenuecat)
-    #   # pay_customer.update(processor_id: stripe_event.data.object.customer)
-    #   assert_difference "Pay::Webhook.count" do
-    #     assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-    #       post webhooks_revenuecat_path, params: revenuecat_params, as: :json
-    #       assert_response :success
-    #     end
-    #   end
-    #
-    #   assert_difference "Pay::Charge.count" do
-    #     perform_enqueued_jobs
-    #   end
-    # end
 
     private
 
@@ -114,27 +96,45 @@ module Pay
     end
 
     def initial_purchase_params
-      JSON.parse(
-        file_fixture("initial_purchase.json").read
-      )
+      data = JSON.parse(file_fixture("initial_purchase.json").read)
+      data["event"].merge!({
+        "app_user_id" => @owner.id,
+        "original_app_user_id" => @owner.id
+      })
+      data
     end
 
     def renewal_params
-      JSON.parse(
+      data = JSON.parse(
         file_fixture("renewal.json").read
       )
+      data["event"].merge!({
+        "app_user_id" => @owner.id,
+        "original_app_user_id" => @owner.id
+      })
+      data
     end
 
     def expiration_params
-      JSON.parse(
+      data = JSON.parse(
         file_fixture("expiration.json").read
       )
+      data["event"].merge!({
+        "app_user_id" => @owner.id,
+        "original_app_user_id" => @owner.id
+      })
+      data
     end
 
     def cancellation_params
-      JSON.parse(
+      data = JSON.parse(
         file_fixture("cancellation.json").read
       )
+      data["event"].merge!({
+        "app_user_id" => @owner.id,
+        "original_app_user_id" => @owner.id
+      })
+      data
     end
   end
 end

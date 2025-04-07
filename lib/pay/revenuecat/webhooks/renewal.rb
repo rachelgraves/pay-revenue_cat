@@ -5,7 +5,9 @@ module Pay
     module Webhooks
       class Renewal
         def call(event)
-          pay_customer = User.find(
+          klass = Pay::Revenuecat.integration_model_klass.constantize
+
+          pay_customer = klass.find(
             event["app_user_id"]
           ).payment_processor
 

@@ -8,27 +8,6 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     @owner = @pay_customer.owner
   end
 
-  def create_subscription(payload)
-    Pay::Revenuecat::Subscription.create!(
-      name: "todo: Figure out what should go here",
-      processor_plan: payload["product_id"],
-      processor_id: payload["original_transaction_id"],
-      current_period_start: 27.days.ago,
-      current_period_end: 1.month.from_now.beginning_of_month,
-      status: :active,
-      customer: @pay_customer
-    )
-  end
-
-  def create_initial_charge(payload, subscription)
-    Pay::Revenuecat::Charge.create!(
-      subscription: subscription,
-      processor_id: payload["transaction_id"],
-      amount: 9.99,
-      customer: @pay_customer
-    )
-  end
-
   test "INITIAL_PURCHASE -> no customer exists -> sets the payment processor to revenuecat" do
     @pay_customer.destroy
 
@@ -53,7 +32,8 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
       )
     end
 
-    subscription = @pay_customer.reload.subscriptions.first
+    subscription = @pay_customer.reload.subscriptions.sole
+    charge = subscription.charges.sole
 
     assert_equal(
       initial_purchase_params["presented_offering_id"],
@@ -74,6 +54,9 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     assert_equal(
       Time.at(initial_purchase_params["expiration_at_ms"] / 1000),
       subscription.ends_at
+    )
+    assert_equal(
+      subscription, charge.subscription
     )
   end
 
@@ -96,6 +79,9 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     assert_equal(
       Time.at(renewal_params["expiration_at_ms"] / 1000),
       subscription.ends_at
+    )
+    assert_equal(
+      subscription, Pay::Revenuecat::Charge.last.subscription
     )
   end
 
@@ -160,34 +146,5 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
         renewal_android_params
       )
     end
-  end
-
-  private
-
-  def initial_purchase_params
-    parse_fixture("initial_purchase.json")
-  end
-
-  def renewal_params
-    parse_fixture("renewal.json")
-  end
-
-  def renewal_after_cancellation_params
-    parse_fixture("renewal_after_expiration_without_initial_purchase.json")
-  end
-
-  def renewal_android_params
-    parse_fixture("renewal_android_monthly.json")
-  end
-
-  def android_initial_purchase_params
-    parse_fixture("initial_purchase_android_monthly.json")
-  end
-
-  def parse_fixture(filename)
-    JSON.parse(file_fixture(filename).read)["event"].merge({
-      "app_user_id" => @owner.id,
-      "original_app_user_id" => @owner.id
-    })
   end
 end

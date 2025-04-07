@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module Pay
-  module Revenuecat
+  module RevenueCat
     module Webhooks
       class Renewal
         def call(event)
-          klass = Pay::Revenuecat.integration_model_klass.constantize
+          klass = Pay::RevenueCat.integration_model_klass.constantize
 
           pay_customer = klass.find(
             event["app_user_id"]
@@ -55,7 +55,7 @@ module Pay
             end
           end
 
-          Pay::Revenuecat::Charge.create!(
+          Pay::RevenueCat::Charge.create!(
             processor_id: event["transaction_id"],
             amount: (event["price_in_purchased_currency"] * 100).to_i,
             metadata: event["metadata"],

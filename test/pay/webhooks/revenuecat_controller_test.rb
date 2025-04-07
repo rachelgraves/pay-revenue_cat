@@ -1,9 +1,9 @@
 require "test_helper"
 
 module Pay
-  class RevenuecatWebhooksControllerTest < ActionDispatch::IntegrationTest
+  class RevenueCatWebhooksControllerTest < ActionDispatch::IntegrationTest
     include Pay::Engine.routes.url_helpers
-    include Pay::Revenuecat::Engine.routes.url_helpers
+    include Pay::RevenueCat::Engine.routes.url_helpers
 
     def setup
       @owner = users(:revenuecat)
@@ -75,7 +75,7 @@ module Pay
     private
 
     def create_subscription(payload)
-      Pay::Revenuecat::Subscription.create!(
+      Pay::RevenueCat::Subscription.create!(
         name: "todo: Figure out what should go here",
         processor_plan: payload["event"]["product_id"],
         processor_id: payload["event"]["original_transaction_id"],
@@ -87,7 +87,7 @@ module Pay
     end
 
     def create_initial_charge(payload, subscription)
-      Pay::Revenuecat::Charge.create!(
+      Pay::RevenueCat::Charge.create!(
         subscription: subscription,
         processor_id: payload["event"]["transaction_id"],
         amount: 9.99,

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Pay
-  module Revenuecat
+  module RevenueCat
     module Webhooks
       class Cancellation
         def call(event)

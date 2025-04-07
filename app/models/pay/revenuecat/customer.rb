@@ -1,8 +1,8 @@
 module Pay
-  module Revenuecat
+  module RevenueCat
     class Customer < Pay::Customer
       # has_many :charges, dependent: :destroy, class_name: "Pay::RevenueCat::Charge"
-      has_many :subscriptions, dependent: :destroy, class_name: "Pay::Revenuecat::Subscription"
+      has_many :subscriptions, dependent: :destroy, class_name: "Pay::RevenueCat::Subscription"
       # has_many :payment_methods, dependent: :destroy, class_name: "Pay::RevenueCat::PaymentMethod"
       # has_one :default_payment_method, -> { where(default: true) }, class_name: "Pay::RevenueCat::PaymentMethod"
 

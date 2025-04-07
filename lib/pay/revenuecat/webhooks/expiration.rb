@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Pay
-  module Revenuecat
+  module RevenueCat
     module Webhooks
       class Expiration
         def call(event)

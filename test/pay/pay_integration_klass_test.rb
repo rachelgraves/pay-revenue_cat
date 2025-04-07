@@ -4,20 +4,20 @@ require "test_helper"
 
 class Pay::PayIntegrationKlassTest < ActiveSupport::TestCase
   def setup
-    ::Pay::Revenuecat.integration_model_klass = "Account"
+    ::Pay::RevenueCat.integration_model_klass = "Account"
 
     @pay_customer = pay_customers(:revenuecat_account)
     @owner = @pay_customer.owner
   end
 
   test "INITIAL_PURCHASE -> webhook uses correct klass" do
-    Pay::Revenuecat::Webhooks::Renewal.new.call(
+    Pay::RevenueCat::Webhooks::Renewal.new.call(
       initial_purchase_params
     )
 
     assert_equal(
       accounts(:revenuecat),
-      Pay::Revenuecat::Subscription.sole.customer.owner
+      Pay::RevenueCat::Subscription.sole.customer.owner
     )
   end
 
@@ -27,7 +27,7 @@ class Pay::PayIntegrationKlassTest < ActiveSupport::TestCase
 
     create_initial_charge(payload, subscription)
 
-    Pay::Revenuecat::Webhooks::Renewal.new.call(
+    Pay::RevenueCat::Webhooks::Renewal.new.call(
       renewal_params
     )
 
@@ -42,7 +42,7 @@ class Pay::PayIntegrationKlassTest < ActiveSupport::TestCase
 
     create_initial_charge(payload, subscription)
 
-    Pay::Revenuecat::Webhooks::Cancellation.new.call(
+    Pay::RevenueCat::Webhooks::Cancellation.new.call(
       cancellation_params
     )
 
@@ -57,7 +57,7 @@ class Pay::PayIntegrationKlassTest < ActiveSupport::TestCase
 
     create_initial_charge(payload, subscription)
 
-    Pay::Revenuecat::Webhooks::Expiration.new.call(
+    Pay::RevenueCat::Webhooks::Expiration.new.call(
       expiration_params
     )
 

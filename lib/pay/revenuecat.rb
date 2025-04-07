@@ -4,7 +4,7 @@ require_relative "revenuecat/version"
 require_relative "revenuecat/engine"
 
 module Pay
-  module Revenuecat
+  module RevenueCat
     class Error < StandardError; end
 
     module Webhooks
@@ -23,10 +23,10 @@ module Pay
 
     def self.configure_webhooks
       Pay::Webhooks.configure do |events|
-        events.subscribe "revenuecat.INITIAL_PURCHASE", Pay::Revenuecat::Webhooks::Renewal.new
-        events.subscribe "revenuecat.RENEWAL", Pay::Revenuecat::Webhooks::Renewal.new
-        events.subscribe "revenuecat.CANCELLATION", Pay::Revenuecat::Webhooks::Cancellation.new
-        events.subscribe "revenuecat.EXPIRATION", Pay::Revenuecat::Webhooks::Expiration.new
+        events.subscribe "revenuecat.INITIAL_PURCHASE", Pay::RevenueCat::Webhooks::Renewal.new
+        events.subscribe "revenuecat.RENEWAL", Pay::RevenueCat::Webhooks::Renewal.new
+        events.subscribe "revenuecat.CANCELLATION", Pay::RevenueCat::Webhooks::Cancellation.new
+        events.subscribe "revenuecat.EXPIRATION", Pay::RevenueCat::Webhooks::Expiration.new
       end
     end
   end

@@ -4,7 +4,7 @@ require_relative "lib/pay/revenuecat/version"
 
 Gem::Specification.new do |spec|
   spec.name = "pay-revenuecat"
-  spec.version = Pay::Revenuecat::VERSION
+  spec.version = Pay::RevenueCat::VERSION
   spec.authors = ["Rachel J Graves"]
   spec.email = ["rachel@racheljgraves.co.uk"]
 

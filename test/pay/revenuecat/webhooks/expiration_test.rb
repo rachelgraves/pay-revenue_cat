@@ -2,9 +2,9 @@
 
 require "test_helper"
 
-class Pay::Revenuecat::Webhooks::ExpirationTest < ActiveSupport::TestCase
+class Pay::RevenueCat::Webhooks::ExpirationTest < ActiveSupport::TestCase
   def setup
-    Pay::Revenuecat.integration_model_klass = "User"
+    Pay::RevenueCat.integration_model_klass = "User"
 
     @pay_customer = pay_customers(:revenuecat)
     @owner = @pay_customer.owner
@@ -16,7 +16,7 @@ class Pay::Revenuecat::Webhooks::ExpirationTest < ActiveSupport::TestCase
     create_initial_charge(payload, subscription)
     assert_equal "APP_STORE", subscription.data["store"]
 
-    Pay::Revenuecat::Webhooks::Expiration.new.call(
+    Pay::RevenueCat::Webhooks::Expiration.new.call(
       expiration_params
     )
 
@@ -33,7 +33,7 @@ class Pay::Revenuecat::Webhooks::ExpirationTest < ActiveSupport::TestCase
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
 
-    Pay::Revenuecat::Webhooks::Expiration.new.call(
+    Pay::RevenueCat::Webhooks::Expiration.new.call(
       android_expiration_params
     )
 

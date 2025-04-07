@@ -1,5 +1,5 @@
 module Pay
-  module Revenuecat
+  module RevenueCat
     class Charge < Pay::Charge
       def api_record
         # stripe uses this to call the Stripe client and get the latest charge details

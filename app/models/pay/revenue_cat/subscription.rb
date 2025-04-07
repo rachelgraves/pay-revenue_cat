@@ -8,6 +8,7 @@ module Pay
       # def pause
       #   update(status: :paused, trial_ends_at: Time.current)
       # end
+      def resumable? = false
     end
   end
 end

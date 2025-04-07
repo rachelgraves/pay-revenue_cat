@@ -5,7 +5,9 @@ module Pay
     module Webhooks
       class Renewal
         def call(event)
-          pay_customer = User.find(
+          klass = Pay::Revenuecat.integration_model_klass.constantize
+
+          pay_customer = klass.find(
             event["app_user_id"]
           ).payment_processor
 
@@ -33,7 +35,7 @@ module Pay
           }
 
           if pay_customer.subscriptions.empty?
-            pay_customer.subscribe(**args)
+            pay_subscription = pay_customer.subscribe(**args)
           else
             pay_subscription = Pay::Subscription.find_by_processor_and_id(
               :revenuecat,
@@ -57,7 +59,8 @@ module Pay
             processor_id: event["transaction_id"],
             amount: (event["price_in_purchased_currency"] * 100).to_i,
             metadata: event["metadata"],
-            customer: pay_customer
+            customer: pay_customer,
+            subscription: pay_subscription
           )
         end
       end

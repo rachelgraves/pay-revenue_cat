@@ -18,6 +18,9 @@ module Pay
       true
     end
 
+    mattr_accessor :integration_model_klass
+    @@integration_model_klass = "User"
+
     def self.configure_webhooks
       Pay::Webhooks.configure do |events|
         events.subscribe "revenuecat.INITIAL_PURCHASE", Pay::Revenuecat::Webhooks::Renewal.new

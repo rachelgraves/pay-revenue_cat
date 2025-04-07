@@ -1,7 +1,7 @@
 PATH
   remote: ../..
   specs:
-    pay-revenuecat (0.1.0)
+    pay-revenue_cat (0.1.0)
       activesupport
       pay (~> 8)
       railties (>= 7.1, < 9)
@@ -298,7 +298,7 @@ DEPENDENCIES
   jbuilder
   kamal
   pay (~> 8.0)
-  pay-revenuecat!
+  pay-revenue_cat!
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2)

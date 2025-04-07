@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative "lib/pay/revenuecat/version"
+require_relative "lib/pay/revenue_cat/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "pay-revenuecat"
-  spec.version = Pay::Revenuecat::VERSION
+  spec.name = "pay-revenue_cat"
+  spec.version = Pay::RevenueCat::VERSION
   spec.authors = ["Rachel J Graves"]
   spec.email = ["rachel@racheljgraves.co.uk"]
 
   spec.summary = "RevenueCat processor for the pay gem (pay-rails)."
   spec.description = "Adds RevenueCat as a payment processor for the pay gem in Rails apps."
-  spec.homepage = "https://github.com/rachelgraves/pay-revenuecat"
+  spec.homepage = "https://github.com/rachelgraves/pay-revenue_cat"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.1.0"
 

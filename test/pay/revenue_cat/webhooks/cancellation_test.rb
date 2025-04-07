@@ -2,10 +2,10 @@
 
 require "test_helper"
 
-class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
+class Pay::RevenueCat::Webhooks::CancellationTest < ActiveSupport::TestCase
   def setup
-    Pay::Revenuecat.integration_model_klass = "User"
-    @pay_customer = pay_customers(:revenuecat)
+    Pay::RevenueCat.integration_model_klass = "User"
+    @pay_customer = pay_customers(:revenue_cat)
     @owner = @pay_customer.owner
   end
 
@@ -14,8 +14,8 @@ class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
 
-    assert_no_changes "Pay::Revenuecat::Charge.count" do
-      Pay::Revenuecat::Webhooks::Cancellation.new.call(
+    assert_no_changes "Pay::RevenueCat::Charge.count" do
+      Pay::RevenueCat::Webhooks::Cancellation.new.call(
         cancellation_params
       )
     end
@@ -33,7 +33,7 @@ class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
 
-    Pay::Revenuecat::Webhooks::Cancellation.new.call(
+    Pay::RevenueCat::Webhooks::Cancellation.new.call(
       android_cancellation_params
     )
 

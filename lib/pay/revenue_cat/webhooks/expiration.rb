@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 module Pay
-  module Revenuecat
+  module RevenueCat
     module Webhooks
-      class Cancellation
+      class Expiration
         def call(event)
           pay_subscription = Pay::Subscription.find_by_processor_and_id(
-            :revenuecat, event["original_transaction_id"]
+            :revenue_cat, event["original_transaction_id"]
           )
 
           data = (pay_subscription.data || {}).merge(
             {
-              cancel_reason: event["cancel_reason"]
+              expiration_reason: event["expiration_reason"]
             }
           )
 
@@ -19,7 +19,7 @@ module Pay
 
           pay_subscription.with_lock do
             pay_subscription.update!(
-              status: (ends_at.future? ? :active : :canceled),
+              status: "canceled",
               ends_at: ends_at,
               data: data
             )

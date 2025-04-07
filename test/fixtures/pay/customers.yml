@@ -1,13 +1,13 @@
-revenuecat:
-  type: Pay::Revenuecat::Customer
-  owner: revenuecat (User)
-  processor: revenuecat
+revenue_cat:
+  type: Pay::RevenueCat::Customer
+  owner: revenue_cat (User)
+  processor: revenue_cat
   processor_id: 0e000000-0000-000a-b000-0000000c0dcd
   default: true
 
-revenuecat_account:
-  type: Pay::Revenuecat::Customer
-  owner: revenuecat (Account)
-  processor: revenuecat
+revenue_cat_account:
+  type: Pay::RevenueCat::Customer
+  owner: revenue_cat (Account)
+  processor: revenue_cat
   processor_id: 42
   default: false

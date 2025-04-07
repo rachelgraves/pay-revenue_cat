@@ -3,7 +3,7 @@
 ENV["RAILS_ENV"] = "test"
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
-require "pay/revenuecat"
+require "pay/revenue_cat"
 
 require "minitest/autorun"
 require "minitest/reporters"
@@ -77,7 +77,7 @@ def parse_fixture(filename)
 end
 
 def create_subscription(payload)
-  Pay::Revenuecat::Subscription.create!(
+  Pay::RevenueCat::Subscription.create!(
     name: "todo: Figure out what should go here",
     processor_plan: payload["product_id"],
     processor_id: payload["original_transaction_id"],
@@ -92,7 +92,7 @@ def create_subscription(payload)
 end
 
 def create_initial_charge(payload, subscription)
-  Pay::Revenuecat::Charge.create!(
+  Pay::RevenueCat::Charge.create!(
     subscription: subscription,
     processor_id: payload["transaction_id"],
     amount: 9.99,

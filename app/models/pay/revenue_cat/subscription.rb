@@ -1,5 +1,5 @@
 module Pay
-  module Revenuecat
+  module RevenueCat
     class Subscription < Pay::Subscription
       # def paused?
       #   status == "paused"

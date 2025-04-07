@@ -42,4 +42,4 @@ group :development do
 end
 
 gem "pay", "~> 8.0"
-gem "pay-revenuecat", path: "../.."
+gem "pay-revenue_cat", path: "../.."

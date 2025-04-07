@@ -13,6 +13,7 @@
 ActiveRecord::Schema[8.0].define(version: 2025_04_07_102418) do
   create_table "accounts", force: :cascade do |t|
     t.string "email"
+    t.string "account_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

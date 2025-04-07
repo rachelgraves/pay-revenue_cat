@@ -7,11 +7,8 @@ class Pay::RevenuecatTest < ActiveSupport::TestCase
     refute_nil ::Pay::Revenuecat::VERSION
   end
 
-  test "#intgration_model_klass is 'User'" do
-    assert_equal "User", ::Pay::Revenuecat.integration_model_klass
-  end
-
-  test "#integration_model_klass can be set to a different model" do
+  test "#integration_model_klass can be set and read" do
     assert_equal "Foo", ::Pay::Revenuecat.integration_model_klass = "Foo"
+    assert_equal "Foo", ::Pay::Revenuecat.integration_model_klass
   end
 end

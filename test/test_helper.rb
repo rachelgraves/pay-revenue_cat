@@ -84,7 +84,10 @@ def create_subscription(payload)
     current_period_start: 27.days.ago,
     current_period_end: 1.month.from_now.beginning_of_month,
     status: :active,
-    customer: @pay_customer
+    customer: @pay_customer,
+    data: {
+      store: payload["store"]
+    }
   )
 end
 

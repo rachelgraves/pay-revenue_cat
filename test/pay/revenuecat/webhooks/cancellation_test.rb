@@ -6,30 +6,7 @@ class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
   def setup
     Pay::Revenuecat.integration_model_klass = "User"
     @pay_customer = pay_customers(:revenuecat)
-  end
-
-  def create_subscription(payload)
-    Pay::Revenuecat::Subscription.create!(
-      name: "todo: Figure out what should go here",
-      processor_plan: payload["event"]["product_id"],
-      processor_id: payload["event"]["original_transaction_id"],
-      current_period_start: 27.days.ago,
-      current_period_end: 1.month.from_now.beginning_of_month,
-      status: :active,
-      customer: @pay_customer,
-      data: {
-        store: payload["event"]["store"]
-      }
-    )
-  end
-
-  def create_initial_charge(payload, subscription)
-    Pay::Revenuecat::Charge.create!(
-      subscription: subscription,
-      processor_id: payload["event"]["transaction_id"],
-      amount: 9.99,
-      customer: @pay_customer
-    )
+    @owner = @pay_customer.owner
   end
 
   test "iOS cancellation" do
@@ -39,7 +16,7 @@ class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
 
     assert_no_changes "Pay::Revenuecat::Charge.count" do
       Pay::Revenuecat::Webhooks::Cancellation.new.call(
-        cancellation_params["event"]
+        cancellation_params
       )
     end
 
@@ -57,7 +34,7 @@ class Pay::Revenuecat::Webhooks::CancellationTest < ActiveSupport::TestCase
     create_initial_charge(payload, subscription)
 
     Pay::Revenuecat::Webhooks::Cancellation.new.call(
-      android_cancellation_params["event"]
+      android_cancellation_params
     )
 
     subscription.reload

@@ -38,7 +38,7 @@ module Pay
             pay_subscription = pay_customer.subscribe(**args)
           else
             pay_subscription = Pay::Subscription.find_by_processor_and_id(
-              :revenuecat,
+              :revenue_cat,
               event["original_transaction_id"]
             )
 

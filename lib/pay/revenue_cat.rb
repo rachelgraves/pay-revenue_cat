@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require_relative "revenuecat/version"
-require_relative "revenuecat/engine"
+require_relative "revenue_cat/version"
+require_relative "revenue_cat/engine"
 
 module Pay
   module RevenueCat
     class Error < StandardError; end
 
     module Webhooks
-      autoload :InitialPurchase, "pay/revenuecat/webhooks/initial_purchase"
-      autoload :Renewal, "pay/revenuecat/webhooks/renewal"
-      autoload :Cancellation, "pay/revenuecat/webhooks/cancellation"
-      autoload :Expiration, "pay/revenuecat/webhooks/expiration"
+      autoload :InitialPurchase, "pay/revenue_cat/webhooks/initial_purchase"
+      autoload :Renewal, "pay/revenue_cat/webhooks/renewal"
+      autoload :Cancellation, "pay/revenue_cat/webhooks/cancellation"
+      autoload :Expiration, "pay/revenue_cat/webhooks/expiration"
     end
 
     def self.enabled?
@@ -23,10 +23,10 @@ module Pay
 
     def self.configure_webhooks
       Pay::Webhooks.configure do |events|
-        events.subscribe "revenuecat.INITIAL_PURCHASE", Pay::RevenueCat::Webhooks::Renewal.new
-        events.subscribe "revenuecat.RENEWAL", Pay::RevenueCat::Webhooks::Renewal.new
-        events.subscribe "revenuecat.CANCELLATION", Pay::RevenueCat::Webhooks::Cancellation.new
-        events.subscribe "revenuecat.EXPIRATION", Pay::RevenueCat::Webhooks::Expiration.new
+        events.subscribe "revenue_cat.INITIAL_PURCHASE", Pay::RevenueCat::Webhooks::Renewal.new
+        events.subscribe "revenue_cat.RENEWAL", Pay::RevenueCat::Webhooks::Renewal.new
+        events.subscribe "revenue_cat.CANCELLATION", Pay::RevenueCat::Webhooks::Cancellation.new
+        events.subscribe "revenue_cat.EXPIRATION", Pay::RevenueCat::Webhooks::Expiration.new
       end
     end
   end

@@ -18,7 +18,7 @@ module Pay
         return unless listening?(event)
 
         record = Pay::Webhook.create!(
-          processor: :revenuecat,
+          processor: :revenue_cat,
           event_type: event[:event][:type],
           event: event[:event]
         )
@@ -31,7 +31,7 @@ module Pay
       end
 
       def listening?(event)
-        Pay::Webhooks.delegator.listening?("revenuecat.#{event[:event][:type]}")
+        Pay::Webhooks.delegator.listening?("revenue_cat.#{event[:event][:type]}")
       end
     end
   end

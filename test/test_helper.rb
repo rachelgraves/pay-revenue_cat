@@ -3,7 +3,7 @@
 ENV["RAILS_ENV"] = "test"
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
-require "pay/revenuecat"
+require "pay/revenue_cat"
 
 require "minitest/autorun"
 require "minitest/reporters"

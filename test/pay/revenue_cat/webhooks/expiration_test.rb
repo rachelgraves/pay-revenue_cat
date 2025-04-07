@@ -6,7 +6,7 @@ class Pay::RevenueCat::Webhooks::ExpirationTest < ActiveSupport::TestCase
   def setup
     Pay::RevenueCat.integration_model_klass = "User"
 
-    @pay_customer = pay_customers(:revenuecat)
+    @pay_customer = pay_customers(:revenue_cat)
     @owner = @pay_customer.owner
   end
 

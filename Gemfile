@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in pay-revenuecat.gemspec
+# Specify your gem's dependencies in pay-revenue_cat.gemspec
 gemspec
 gem "debug"
 gem "irb"

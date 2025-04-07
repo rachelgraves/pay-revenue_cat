@@ -6,7 +6,7 @@ class Pay::PayIntegrationKlassTest < ActiveSupport::TestCase
   def setup
     ::Pay::RevenueCat.integration_model_klass = "Account"
 
-    @pay_customer = pay_customers(:revenuecat_account)
+    @pay_customer = pay_customers(:revenue_cat_account)
     @owner = @pay_customer.owner
   end
 
@@ -16,7 +16,7 @@ class Pay::PayIntegrationKlassTest < ActiveSupport::TestCase
     )
 
     assert_equal(
-      accounts(:revenuecat),
+      accounts(:revenue_cat),
       Pay::RevenueCat::Subscription.sole.customer.owner
     )
   end
@@ -33,7 +33,7 @@ class Pay::PayIntegrationKlassTest < ActiveSupport::TestCase
 
     subscription.reload
 
-    assert_equal accounts(:revenuecat), subscription.charges.last.customer.owner
+    assert_equal accounts(:revenue_cat), subscription.charges.last.customer.owner
   end
 
   test "CANCELLATION -> webhook uses correct klass" do

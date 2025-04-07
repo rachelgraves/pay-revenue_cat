@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pay-revenuecat (0.1.0)
+    pay-revenue_cat (0.1.0)
       activesupport
       pay (~> 8)
       railties (>= 7.1, < 9)
@@ -278,7 +278,7 @@ DEPENDENCIES
   minitest (~> 5.16)
   minitest-reporters (~> 1.7)
   pay
-  pay-revenuecat!
+  pay-revenue_cat!
   rails (>= 8.0)
   rake (~> 13.0)
   rubocop-rails-omakase (~> 1.1)

@@ -5,11 +5,11 @@ require "test_helper"
 class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
   def setup
     Pay::RevenueCat.integration_model_klass = "User"
-    @pay_customer = pay_customers(:revenuecat)
+    @pay_customer = pay_customers(:revenue_cat)
     @owner = @pay_customer.owner
   end
 
-  test "INITIAL_PURCHASE -> no customer exists -> sets the payment processor to revenuecat" do
+  test "INITIAL_PURCHASE -> no customer exists -> sets the payment processor to revenue_cat" do
     @pay_customer.destroy
 
     assert_changes -> { Pay::RevenueCat::Customer.count } do
@@ -121,7 +121,7 @@ class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
 
   # we may not get here in real life but what happens with sandbox accounts
   # is if you have already had a subscriotion expire and start a new one
-  # revenuecat send a renewal event. If you're re-seeding your database this
+  # revenue_cat send a renewal event. If you're re-seeding your database this
   # can be very annoying.
   test "RENEWAL -> iOS -> creates a new subscription if one does not exist" do
     assert_difference "Pay::RevenueCat::Subscription.count" do

@@ -6,7 +6,7 @@ module Pay
       # has_many :payment_methods, dependent: :destroy, class_name: "Pay::RevenueCat::PaymentMethod"
       # has_one :default_payment_method, -> { where(default: true) }, class_name: "Pay::RevenueCat::PaymentMethod"
 
-      scope :revenuecat, -> { where(processor: "revenuecat") }
+      scope :revenue_cat, -> { where(processor: "revenue_cat") }
 
       def update_api_record(**_attributes)
         self

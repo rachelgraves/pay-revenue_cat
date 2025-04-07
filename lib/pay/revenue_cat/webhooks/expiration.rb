@@ -6,7 +6,7 @@ module Pay
       class Expiration
         def call(event)
           pay_subscription = Pay::Subscription.find_by_processor_and_id(
-            :revenuecat, event["original_transaction_id"]
+            :revenue_cat, event["original_transaction_id"]
           )
 
           data = (pay_subscription.data || {}).merge(

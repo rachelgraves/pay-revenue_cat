@@ -6,15 +6,17 @@ module Pay
     include Pay::RevenueCat::Engine.routes.url_helpers
 
     def setup
-      @owner = users(:revenuecat)
-      @pay_customer = pay_customers(:revenuecat)
+      Pay::RevenueCat.integration_model_klass = "User"
+
+      @owner = users(:revenue_cat)
+      @pay_customer = pay_customers(:revenue_cat)
       @pay_customer.update!(processor_id: @owner.id)
     end
 
     test "should handle INITIAL_PURCHASE event" do
       assert_difference "Pay::Webhook.count" do
         assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-          post webhooks_revenuecat_path, params: initial_purchase_params, as: :json
+          post webhooks_revenue_cat_path, params: initial_purchase_params, as: :json
           assert_response :success
         end
       end
@@ -30,7 +32,7 @@ module Pay
 
       assert_difference "Pay::Webhook.count" do
         assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-          post webhooks_revenuecat_path, params: renewal_params, as: :json
+          post webhooks_revenue_cat_path, params: renewal_params, as: :json
           assert_response :success
         end
       end
@@ -46,7 +48,7 @@ module Pay
 
       assert_difference "Pay::Webhook.count" do
         assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-          post webhooks_revenuecat_path, params: cancellation_params, as: :json
+          post webhooks_revenue_cat_path, params: cancellation_params, as: :json
           assert_response :success
         end
       end
@@ -62,7 +64,7 @@ module Pay
 
       assert_difference "Pay::Webhook.count" do
         assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-          post webhooks_revenuecat_path, params: expiration_params, as: :json
+          post webhooks_revenue_cat_path, params: expiration_params, as: :json
           assert_response :success
         end
       end

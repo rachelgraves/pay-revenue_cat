@@ -5,8 +5,8 @@ require "rails/engine/configuration"
 module Pay
   module RevenueCat
     class Engine < ::Rails::Engine
-      engine_name "pay_revenuecat"
-      initializer "pay_revenuecat.processors" do |app|
+      engine_name "pay_revenue_cat"
+      initializer "pay_revenue_cat.processors" do |app|
         if Pay.automount_routes
           app.routes.append do
             mount Pay::RevenueCat::Engine, at: Pay.routes_path

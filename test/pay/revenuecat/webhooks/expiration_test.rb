@@ -65,26 +65,4 @@ class Pay::Revenuecat::Webhooks::ExpirationTest < ActiveSupport::TestCase
     assert_equal "canceled", subscription.status
     assert_equal Time.at(1_740_571_667), subscription.ends_at
   end
-
-  private
-
-  def initial_purchase_params
-    parse_fixture("initial_purchase.json")
-  end
-
-  def expiration_params
-    parse_fixture("expiration.json")
-  end
-
-  def android_expiration_params
-    parse_fixture("expiration_android_monthly.json")
-  end
-
-  def android_initial_purchase_params
-    parse_fixture("initial_purchase_android_monthly.json")
-  end
-
-  def parse_fixture(filename)
-    JSON.parse(file_fixture(filename).read)
-  end
 end

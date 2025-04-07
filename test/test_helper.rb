@@ -53,6 +53,22 @@ def android_initial_purchase_params
   parse_fixture("initial_purchase_android_monthly.json")
 end
 
+def cancellation_params
+  parse_fixture("cancellation.json")
+end
+
+def android_cancellation_params
+  parse_fixture("cancellation_android.json")
+end
+
+def expiration_params
+  parse_fixture("expiration.json")
+end
+
+def android_expiration_params
+  parse_fixture("expiration_android_monthly.json")
+end
+
 def parse_fixture(filename)
   JSON.parse(file_fixture(filename).read)["event"].merge({
     "app_user_id" => @owner.id,

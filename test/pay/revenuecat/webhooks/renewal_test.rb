@@ -5,6 +5,7 @@ require "test_helper"
 class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
   def setup
     @pay_customer = pay_customers(:revenuecat)
+    @owner = @pay_customer.owner
   end
 
   def create_subscription(payload)
@@ -83,6 +84,24 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
     assert_equal Time.at(1_740_658_577), subscription.current_period_end
   end
 
+  # we may not get here in real life but what happens with sandbox accounts
+  # is if you have already had a subscriotion expire and start a new one
+  # revenuecat send a renewal event. If you're re-seeding your database this
+  # can be very annoying.
+  test "iOS renewal: creates a new subscription if one does not exist" do
+    assert_difference "Pay::Revenuecat::Subscription.count" do
+      Pay::Revenuecat::Webhooks::Renewal.new.call(
+        renewal_after_cancellation_params
+      )
+    end
+
+    subscription = Pay::Revenuecat::Subscription.last
+
+    assert_equal "active", subscription.status
+    assert_equal Time.at(1_740_658_577), subscription.ends_at
+    assert_equal Time.at(1_740_658_577), subscription.current_period_end
+  end
+
   test "Android renewal: adds a charge" do
     payload = android_initial_purchase_params
     subscription = create_subscription(payload)
@@ -118,6 +137,9 @@ class Pay::Revenuecat::Webhooks::RenewalTest < ActiveSupport::TestCase
   end
 
   def parse_fixture(filename)
-    JSON.parse(file_fixture(filename).read)["event"]
+    JSON.parse(file_fixture(filename).read)["event"].merge({
+      "app_user_id" => @owner.id,
+      "original_app_user_id" => @owner.id
+    })
   end
 end

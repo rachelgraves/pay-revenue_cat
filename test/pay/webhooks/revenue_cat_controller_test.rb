@@ -7,16 +7,55 @@ module Pay
 
     def setup
       Pay::RevenueCat.integration_model_klass = "User"
+      Pay::RevenueCat.stubs(:webhook_access_key).returns("1234567")
 
       @owner = users(:revenue_cat)
       @pay_customer = pay_customers(:revenue_cat)
       @pay_customer.update!(processor_id: @owner.id)
     end
 
+    test "fails with invalid authentication" do
+      post(
+        webhooks_revenue_cat_path,
+        params: {},
+        as: :json,
+        headers: {Authorization: "Basic 7654321"}
+      )
+
+      assert_response :unauthorized
+    end
+
+    test "fails without authentication" do
+      post(
+        webhooks_revenue_cat_path,
+        params: {},
+        as: :json
+      )
+
+      assert_response :unauthorized
+    end
+
+    test "fails with incorrect type of authentication" do
+      post(
+        webhooks_revenue_cat_path,
+        params: {},
+        as: :json,
+        headers: {Authorization: "Bearer 1234567"}
+      )
+
+      assert_response :unauthorized
+    end
+
     test "should handle INITIAL_PURCHASE event" do
       assert_difference "Pay::Webhook.count" do
         assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-          post webhooks_revenue_cat_path, params: initial_purchase_params, as: :json
+          post(
+            webhooks_revenue_cat_path,
+            params: initial_purchase_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
+
           assert_response :success
         end
       end
@@ -32,7 +71,12 @@ module Pay
 
       assert_difference "Pay::Webhook.count" do
         assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-          post webhooks_revenue_cat_path, params: renewal_params, as: :json
+          post(
+            webhooks_revenue_cat_path,
+            params: renewal_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
           assert_response :success
         end
       end
@@ -48,7 +92,12 @@ module Pay
 
       assert_difference "Pay::Webhook.count" do
         assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-          post webhooks_revenue_cat_path, params: cancellation_params, as: :json
+          post(
+            webhooks_revenue_cat_path,
+            params: cancellation_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
           assert_response :success
         end
       end
@@ -64,7 +113,12 @@ module Pay
 
       assert_difference "Pay::Webhook.count" do
         assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
-          post webhooks_revenue_cat_path, params: expiration_params, as: :json
+          post(
+            webhooks_revenue_cat_path,
+            params: expiration_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
           assert_response :success
         end
       end
@@ -72,6 +126,28 @@ module Pay
       assert_changes -> { subscription.reload.status }, to: "canceled" do
         perform_enqueued_jobs
       end
+    end
+
+    test "should log TEST event using Rails.logger" do
+      messages = []
+      Rails.logger.stub(:info, ->(*args) {
+        messages << args.first
+      }) do
+        post(
+          webhooks_revenue_cat_path,
+          params: test_params,
+          as: :json,
+          headers: {Authorization: "Basic 1234567"}
+        )
+      end
+
+      expected = "Received TEST event from RevenueCat"
+      assert_includes(
+        messages,
+        expected,
+        "Expected log message '#{expected}', but got: #{messages.inspect}"
+      )
+      assert_response :success
     end
 
     private
@@ -137,6 +213,12 @@ module Pay
         "original_app_user_id" => @owner.id
       })
       data
+    end
+
+    def test_params
+      JSON.parse(
+        file_fixture("test.json").read
+      )
     end
   end
 end

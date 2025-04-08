@@ -10,7 +10,7 @@ gem "minitest", "~> 5.16"
 gem "pay"
 gem "rake", "~> 13.0"
 gem "sqlite3", ">= 2.1"
-
+gem "mocha"
 gem "minitest-reporters", "~> 1.7"
 
 gem "rubocop-rails-omakase", "~> 1.1"

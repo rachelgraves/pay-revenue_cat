@@ -8,13 +8,34 @@ module Pay
       end
 
       def create
-        queue_event(verify_params)
+        queue_event(verified_event)
         head :ok
+      rescue Pay::RevenueCat::InvalidEventSignature
+        head :unauthorized
       end
 
       private
 
+      def verified_event
+        signature = request.headers["Authorization"]
+        raise Pay::RevenueCat::InvalidEventSignature unless valid_signature?(signature)
+
+        verify_params
+      end
+
+      def valid_signature?(signature)
+        return false unless signature.present?
+
+        scheme, token = signature.split(" ", 2)
+
+        return false unless scheme == "Basic"
+        return false unless token == Pay::RevenueCat.webhook_access_key
+
+        true
+      end
+
       def queue_event(event)
+        return log_test_event if event[:event][:type] == "TEST"
         return unless listening?(event)
 
         record = Pay::Webhook.create!(
@@ -24,6 +45,10 @@ module Pay
         )
 
         Pay::Webhooks::ProcessJob.perform_later(record)
+      end
+
+      def log_test_event
+        Rails.logger.info("Received TEST event from RevenueCat")
       end
 
       def verify_params

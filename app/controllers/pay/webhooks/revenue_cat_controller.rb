@@ -35,6 +35,7 @@ module Pay
       end
 
       def queue_event(event)
+        return log_test_event if event[:event][:type] == "TEST"
         return unless listening?(event)
 
         record = Pay::Webhook.create!(
@@ -44,6 +45,10 @@ module Pay
         )
 
         Pay::Webhooks::ProcessJob.perform_later(record)
+      end
+
+      def log_test_event
+        Rails.logger.info("Received TEST event from RevenueCat")
       end
 
       def verify_params

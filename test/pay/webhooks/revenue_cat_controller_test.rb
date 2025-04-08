@@ -128,6 +128,28 @@ module Pay
       end
     end
 
+    test "should log TEST event using Rails.logger" do
+      messages = []
+      Rails.logger.stub(:info, ->(*args) {
+        messages << args.first
+      }) do
+        post(
+          webhooks_revenue_cat_path,
+          params: test_params,
+          as: :json,
+          headers: {Authorization: "Basic 1234567"}
+        )
+      end
+
+      expected = "Received TEST event from RevenueCat"
+      assert_includes(
+        messages,
+        expected,
+        "Expected log message '#{expected}', but got: #{messages.inspect}"
+      )
+      assert_response :success
+    end
+
     private
 
     def create_subscription(payload)
@@ -191,6 +213,12 @@ module Pay
         "original_app_user_id" => @owner.id
       })
       data
+    end
+
+    def test_params
+      JSON.parse(
+        file_fixture("test.json").read
+      )
     end
   end
 end

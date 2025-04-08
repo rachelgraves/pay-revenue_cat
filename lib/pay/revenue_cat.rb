@@ -9,7 +9,6 @@ module Pay
     class InvalidEventSignature < Error; end
 
     module Webhooks
-      autoload :InitialPurchase, "pay/revenue_cat/webhooks/initial_purchase"
       autoload :Renewal, "pay/revenue_cat/webhooks/renewal"
       autoload :Cancellation, "pay/revenue_cat/webhooks/cancellation"
       autoload :Expiration, "pay/revenue_cat/webhooks/expiration"

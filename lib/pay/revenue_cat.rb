@@ -7,6 +7,7 @@ require "pay/env"
 module Pay
   module RevenueCat
     class Error < StandardError; end
+
     class InvalidEventSignature < Error; end
 
     module Webhooks

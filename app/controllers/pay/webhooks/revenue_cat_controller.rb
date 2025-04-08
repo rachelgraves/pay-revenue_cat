@@ -8,11 +8,31 @@ module Pay
       end
 
       def create
-        queue_event(verify_params)
+        queue_event(verified_event)
         head :ok
+      rescue Pay::RevenueCat::InvalidEventSignature
+        head :unauthorized
       end
 
       private
+
+      def verified_event
+        signature = request.headers["Authorization"]
+        raise Pay::RevenueCat::InvalidEventSignature unless valid_signature?(signature)
+
+        verify_params
+      end
+
+      def valid_signature?(signature)
+        return false unless signature.present?
+
+        scheme, token = signature.split(" ", 2)
+
+        return false unless scheme == "Basic"
+        return false unless token == Pay::RevenueCat.webhook_access_key
+
+        true
+      end
 
       def queue_event(event)
         return unless listening?(event)

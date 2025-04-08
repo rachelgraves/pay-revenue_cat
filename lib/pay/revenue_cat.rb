@@ -6,6 +6,7 @@ require_relative "revenue_cat/engine"
 module Pay
   module RevenueCat
     class Error < StandardError; end
+    class InvalidEventSignature < Error; end
 
     module Webhooks
       autoload :InitialPurchase, "pay/revenue_cat/webhooks/initial_purchase"
@@ -20,6 +21,10 @@ module Pay
 
     mattr_accessor :integration_model_klass
     @@integration_model_klass = "User"
+
+    def self.webhook_access_key
+      find_value_by_name(:revenue_cat, :webhook_access_key)
+    end
 
     def self.configure_webhooks
       Pay::Webhooks.configure do |events|

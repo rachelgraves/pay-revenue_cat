@@ -2,6 +2,7 @@
 
 require_relative "revenue_cat/version"
 require_relative "revenue_cat/engine"
+require "pay/env"
 
 module Pay
   module RevenueCat
@@ -20,6 +21,8 @@ module Pay
 
     mattr_accessor :integration_model_klass
     @@integration_model_klass = "User"
+
+    extend Pay::Env
 
     def self.webhook_access_key
       find_value_by_name(:revenue_cat, :webhook_access_key)

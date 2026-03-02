@@ -36,6 +36,7 @@ module Pay
 
       def queue_event(event)
         return log_test_event if event[:event][:type] == "TEST"
+        return log_transfer_event(event) if event[:event][:type] == "TRANSFER"
         return unless listening?(event)
 
         record = Pay::Webhook.create!(
@@ -49,6 +50,14 @@ module Pay
 
       def log_test_event
         Rails.logger.info("Received TEST event from RevenueCat")
+      end
+
+      def log_transfer_event(event)
+        Rails.logger.warn(
+          "Received TRANSFER event from RevenueCat (not processed): " \
+          "transferred_from=#{event[:event][:transferred_from].inspect} " \
+          "transferred_to=#{event[:event][:transferred_to].inspect}"
+        )
       end
 
       def verify_params

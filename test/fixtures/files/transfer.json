@@ -1,0 +1,23 @@
+{
+  "api_version": "1.0",
+  "event": {
+    "app_id": "app00a00f00ae",
+    "environment": "SANDBOX",
+    "event_timestamp_ms": 1772467867683,
+    "id": "00000CC8-0000-0CB4-0000-000000000000",
+    "store": "APP_STORE",
+    "subscriber_attributes": {
+      "$attConsentStatus": {
+        "updated_at_ms": 1772467866955,
+        "value": "notDetermined"
+      }
+    },
+    "transferred_from": [
+      "0e000000-0000-000a-b000-0000000c0dcd"
+    ],
+    "transferred_to": [
+      "acct_000000000000000000000000"
+    ],
+    "type": "TRANSFER"
+  }
+}

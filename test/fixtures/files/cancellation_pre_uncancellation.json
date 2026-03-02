@@ -1,0 +1,45 @@
+{
+  "api_version": "1.0",
+  "event": {
+    "aliases": [
+      "3"
+    ],
+    "app_id": "app39a35f92ae",
+    "app_user_id": "3",
+    "cancel_reason": "UNSUBSCRIBE",
+    "commission_percentage": 0.2489,
+    "country_code": "GB",
+    "currency": "GBP",
+    "entitlement_id": null,
+    "entitlement_ids": [
+      "premium"
+    ],
+    "environment": "SANDBOX",
+    "event_timestamp_ms": 1744034279713,
+    "expiration_at_ms": 1744034511000,
+    "id": "32B51B2C-1DCE-4BAB-B4F1-2BE79F141173",
+    "is_family_share": false,
+    "metadata": null,
+    "offer_code": null,
+    "original_app_user_id": "3",
+    "original_transaction_id": "2000000892335377",
+    "period_type": "NORMAL",
+    "presented_offering_id": "company.subscription",
+    "price": 0,
+    "price_in_purchased_currency": 0,
+    "product_id": "monthly_sub",
+    "purchased_at_ms": 1744034331000,
+    "renewal_number": 12,
+    "store": "APP_STORE",
+    "subscriber_attributes": {
+      "$attConsentStatus": {
+        "updated_at_ms": 1743782330764,
+        "value": "notDetermined"
+      }
+    },
+    "takehome_percentage": 0.7,
+    "tax_percentage": 0.1705,
+    "transaction_id": "2000000892365731",
+    "type": "CANCELLATION"
+  }
+}

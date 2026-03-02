@@ -6,15 +6,18 @@ module Pay
       class Renewal
         def call(event)
           klass = Pay::RevenueCat.integration_model_klass.constantize
+          user = klass.find(event["app_user_id"])
+          pay_customer = user.pay_customers.find_by(processor: :revenue_cat)
 
-          pay_customer = klass.find(
-            event["app_user_id"]
-          ).payment_processor
-
-          if pay_customer.processor_id.blank?
-            pay_customer.update!(
-              processor_id: event["original_app_user_id"]
+          if pay_customer.nil?
+            pay_customer = Pay::RevenueCat::Customer.create!(
+              owner: user,
+              processor: :revenue_cat,
+              processor_id: event["original_app_user_id"],
+              default: false
             )
+          elsif pay_customer.processor_id.blank?
+            pay_customer.update!(processor_id: event["original_app_user_id"])
           end
 
           data = {

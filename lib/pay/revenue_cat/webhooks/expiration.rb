@@ -8,6 +8,7 @@ module Pay
           pay_subscription = Pay::Subscription.find_by_processor_and_id(
             :revenue_cat, event["original_transaction_id"]
           )
+          raise ActiveRecord::RecordNotFound, "RevenueCat subscription not found for transaction #{event["original_transaction_id"]}" if pay_subscription.nil?
 
           data = (pay_subscription.data || {}).merge(
             {

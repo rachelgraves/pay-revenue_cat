@@ -22,7 +22,7 @@ class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
 
     assert_equal(
       @owner.id,
-      @owner.payment_processor.processor_id.to_i
+      @owner.pay_customers.find_by(processor: :revenue_cat).processor_id.to_i
     )
   end
 
@@ -147,5 +147,22 @@ class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
         renewal_android_params
       )
     end
+  end
+
+  test "RENEWAL -> finds RevenueCat customer even when it is not the default payment processor" do
+    payload = initial_purchase_params
+    subscription = create_subscription(payload)
+    create_initial_charge(payload, subscription)
+
+    # Simulate the user having a different default payment processor (e.g. Stripe)
+    @pay_customer.update!(default: false)
+
+    assert_difference -> { @pay_customer.reload.charges.count } do
+      Pay::RevenueCat::Webhooks::Renewal.new.call(renewal_params)
+    end
+
+    charge = @pay_customer.charges.last
+    assert_equal renewal_params["transaction_id"], charge.processor_id
+    assert_equal "revenue_cat", @pay_customer.processor
   end
 end

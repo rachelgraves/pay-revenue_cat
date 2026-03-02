@@ -5,19 +5,18 @@ module Pay
     module Webhooks
       class Renewal
         def call(event)
-          klass = Pay::RevenueCat.integration_model_klass.constantize
-          user = klass.find(event["app_user_id"])
-          pay_customer = user.pay_customers.find_by(processor: :revenue_cat)
+          pay_customer = Pay::Customer.find_by(processor: :revenue_cat, processor_id: event["app_user_id"])
 
           if pay_customer.nil?
+            klass = Pay::RevenueCat.integration_model_klass.constantize
+            field = Pay::RevenueCat.integration_model_field
+            owner = klass.find_by!(field => event["app_user_id"])
             pay_customer = Pay::RevenueCat::Customer.create!(
-              owner: user,
+              owner: owner,
               processor: :revenue_cat,
-              processor_id: event["original_app_user_id"],
+              processor_id: event["app_user_id"],
               default: false
             )
-          elsif pay_customer.processor_id.blank?
-            pay_customer.update!(processor_id: event["original_app_user_id"])
           end
 
           data = {

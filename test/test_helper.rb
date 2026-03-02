@@ -66,6 +66,10 @@ def expiration_params
   parse_fixture("expiration.json")
 end
 
+def test_params
+  parse_fixture("test.json")
+end
+
 def android_expiration_params
   parse_fixture("expiration_android_monthly.json")
 end

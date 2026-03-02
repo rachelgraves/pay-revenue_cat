@@ -26,7 +26,23 @@ TODO: Write usage instructions here
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+This project uses [MISE](https://mise.jdx.dev/) for Ruby version management. The required Ruby version is specified in `.tool-versions`. After installing MISE and checking out the repo, run `bin/setup` to install dependencies.
+
+```bash
+# Run all tests and rubocop
+bundle exec rake
+
+# Run tests only
+bundle exec rake test
+
+# Run a single test file
+bundle exec rake test TEST=test/pay/revenue_cat/webhooks/renewal_test.rb
+
+# Run a single test by name
+bundle exec rake test TEST=test/pay/revenue_cat/webhooks/renewal_test.rb TESTOPTS="--name=test_RENEWAL_iOS_updates_subscription_attributes"
+```
+
+You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 

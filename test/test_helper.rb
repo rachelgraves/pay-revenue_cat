@@ -66,6 +66,10 @@ def expiration_params
   parse_fixture("expiration.json")
 end
 
+def uncancellation_params
+  parse_fixture("uncancellation.json")
+end
+
 def test_params
   parse_fixture("test.json")
 end

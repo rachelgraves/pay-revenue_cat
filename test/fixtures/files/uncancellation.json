@@ -2,10 +2,10 @@
   "api_version": "1.0",
   "event": {
     "aliases": [
-      "xxxx-xxxx-xxxx-xxxx"
+      "0e000000-0000-000a-b000-0000000c0dcd"
     ],
     "app_id": "app00a00f00ae",
-    "app_user_id": "xxxx-xxxx-xxxx-xxxx",
+    "app_user_id": "0e000000-0000-000a-b000-0000000c0dcd",
     "commission_percentage": 0.2489,
     "country_code": "GB",
     "currency": "GBP",
@@ -16,11 +16,11 @@
     "environment": "SANDBOX",
     "event_timestamp_ms": 1744034302565,
     "expiration_at_ms": 1744034511000,
-    "id": "00FA000D-F000-0000-B000-E000A00000E",
+    "id": "00FA000D-F000-0000-B000-E000A000000E",
     "is_family_share": false,
     "metadata": null,
     "offer_code": null,
-    "original_app_user_id": "xxxx-xxxx-xxxx-xxxx",
+    "original_app_user_id": "0e000000-0000-000a-b000-0000000c0dcd",
     "original_transaction_id": "2000000000000000",
     "period_type": "NORMAL",
     "presented_offering_id": "company.subscription",

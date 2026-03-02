@@ -22,7 +22,38 @@ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
 
 ## Usage
 
-TODO: Write usage instructions here
+### Configuration
+
+Add an initializer to configure the gem:
+
+```ruby
+# config/initializers/revenue_cat.rb
+Pay::RevenueCat.integration_model_klass = "User"  # default
+
+# Only needed if your RevenueCat app_user_id is not the model's primary key.
+# For example, if app_user_id is a UUID stored in a `uuid` column:
+Pay::RevenueCat.integration_model_field = :uuid  # default: :id
+```
+
+### How customer resolution works
+
+This differs slightly from the Stripe and Braintree processors in the Pay gem.
+
+**Stripe/Braintree** never need to look up the owner model directly — they always find `Pay::Customer` by `processor_id` alone, since the processor assigns a customer ID on creation.
+
+**RevenueCat** doesn't have a server-side customer creation step. The first webhook (`INITIAL_PURCHASE`) is the moment we create the `Pay::Customer` record. At that point we must look up the owner model using `app_user_id` — that's what `integration_model_field` controls.
+
+```
+INITIAL_PURCHASE (first time)
+  └─ Pay::Customer not found by processor_id
+      └─ Look up owner: User.find_by!(integration_model_field => app_user_id)
+          └─ Create Pay::Customer with processor_id = app_user_id
+
+All subsequent events (RENEWAL, CANCELLATION, etc.)
+  └─ Pay::Customer found by processor_id  ← same fast path as Stripe/Braintree
+```
+
+After the first purchase, `processor_id` is always `app_user_id`, so all later events use the fast path without touching the owner model.
 
 ## Development
 

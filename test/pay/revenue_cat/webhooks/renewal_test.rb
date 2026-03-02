@@ -9,6 +9,10 @@ class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
     @owner = @pay_customer.owner
   end
 
+  def teardown
+    Pay::RevenueCat.integration_model_field = :id
+  end
+
   test "INITIAL_PURCHASE -> no customer exists -> sets the payment processor to revenue_cat" do
     @pay_customer.destroy
 
@@ -24,6 +28,23 @@ class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
       @owner.id,
       @owner.pay_customers.find_by(processor: :revenue_cat).processor_id.to_i
     )
+  end
+
+  test "INITIAL_PURCHASE -> custom integration_model_field -> creates customer via that field" do
+    Pay::RevenueCat.integration_model_field = :email
+    @pay_customer.destroy
+
+    params = JSON.parse(file_fixture("initial_purchase.json").read)["event"].merge(
+      "app_user_id" => @owner.email,
+      "original_app_user_id" => @owner.email
+    )
+
+    assert_changes -> { Pay::RevenueCat::Customer.count } do
+      Pay::RevenueCat::Webhooks::Renewal.new.call(params)
+    end
+
+    new_customer = @owner.reload.pay_customers.find_by(processor: :revenue_cat)
+    assert_equal @owner.email, new_customer.processor_id
   end
 
   test "INITIAL_PURCHASE -> customer exists -> subscribes the customer" do

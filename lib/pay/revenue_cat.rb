@@ -23,6 +23,9 @@ module Pay
     mattr_accessor :integration_model_klass
     @@integration_model_klass = "User"
 
+    mattr_accessor :integration_model_field
+    @@integration_model_field = :id
+
     extend Pay::Env
 
     def self.webhook_access_key

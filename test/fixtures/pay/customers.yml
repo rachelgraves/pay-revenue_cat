@@ -2,12 +2,12 @@ revenue_cat:
   type: Pay::RevenueCat::Customer
   owner: revenue_cat (User)
   processor: revenue_cat
-  processor_id: 0e000000-0000-000a-b000-0000000c0dcd
+  processor_id: <%= ActiveRecord::FixtureSet.identify("revenue_cat") %>
   default: true
 
 revenue_cat_account:
   type: Pay::RevenueCat::Customer
-  owner: revenue_cat (Account)
+  owner: revenue_cat_account (Account)
   processor: revenue_cat
-  processor_id: 42
+  processor_id: <%= ActiveRecord::FixtureSet.identify("revenue_cat_account") %>
   default: false

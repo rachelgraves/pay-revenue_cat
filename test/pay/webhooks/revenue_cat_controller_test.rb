@@ -150,6 +150,28 @@ module Pay
       assert_response :success
     end
 
+    test "should log TRANSFER event and not create a webhook record" do
+      messages = []
+      Rails.logger.stub(:warn, ->(*args) {
+        messages << args.first
+      }) do
+        assert_no_difference "Pay::Webhook.count" do
+          post(
+            webhooks_revenue_cat_path,
+            params: transfer_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
+        end
+      end
+
+      assert(
+        messages.any? { |m| m.start_with?("Received TRANSFER event from RevenueCat") },
+        "Expected a warn log starting with 'Received TRANSFER event from RevenueCat', but got: #{messages.inspect}"
+      )
+      assert_response :success
+    end
+
     private
 
     def create_subscription(payload)
@@ -218,6 +240,12 @@ module Pay
     def test_params
       JSON.parse(
         file_fixture("test.json").read
+      )
+    end
+
+    def transfer_params
+      JSON.parse(
+        file_fixture("transfer.json").read
       )
     end
   end

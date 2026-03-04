@@ -11,8 +11,6 @@ module Pay
               processor_id: event["app_user_id"]
             )
 
-            Rails.logger.info("Customer: #{pay_customer.inspect}") if pay_customer
-
             if pay_customer.nil?
               klass = Pay::RevenueCat.integration_model_klass.constantize
               field = Pay::RevenueCat.integration_model_field
@@ -23,9 +21,9 @@ module Pay
                 processor_id: event["app_user_id"],
                 default: false
               )
-
-              Rails.logger.info "Customer: #{pay_customer.inspect}"
             end
+
+            Rails.logger.info "Customer: #{pay_customer.inspect}"
 
             data = {
               store: event["store"]

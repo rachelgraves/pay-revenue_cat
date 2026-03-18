@@ -33,6 +33,14 @@ Pay::RevenueCat.integration_model_klass = "User"  # default
 # Only needed if your RevenueCat app_user_id is not the model's primary key.
 # For example, if app_user_id is a UUID stored in a `uuid` column:
 Pay::RevenueCat.integration_model_field = :uuid  # default: :id
+
+# Allow sandbox events (default: false — sandbox events are rejected)
+Pay::RevenueCat.allow_sandbox = true
+
+# Or use a callable for per-event decisions:
+Pay::RevenueCat.allow_sandbox = ->(event) {
+  Rails.env.development? || event["app_user_id"].in?(allowed_sandbox_users)
+}
 ```
 
 ### How customer resolution works

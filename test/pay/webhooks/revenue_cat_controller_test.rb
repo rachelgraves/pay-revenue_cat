@@ -7,11 +7,16 @@ module Pay
 
     def setup
       Pay::RevenueCat.integration_model_klass = "User"
+      Pay::RevenueCat.allow_sandbox = true
       Pay::RevenueCat.stubs(:webhook_access_key).returns("1234567")
 
       @owner = users(:revenue_cat)
       @pay_customer = pay_customers(:revenue_cat)
       @pay_customer.update!(processor_id: @owner.id)
+    end
+
+    def teardown
+      Pay::RevenueCat.allow_sandbox = false
     end
 
     test "fails with invalid authentication" do
@@ -168,6 +173,86 @@ module Pay
       assert(
         messages.any? { |m| m.start_with?("Received TRANSFER event from RevenueCat") },
         "Expected a warn log starting with 'Received TRANSFER event from RevenueCat', but got: #{messages.inspect}"
+      )
+      assert_response :success
+    end
+
+    test "should reject SANDBOX event when allow_sandbox is false" do
+      Pay::RevenueCat.allow_sandbox = false
+
+      messages = []
+      Rails.logger.stub(:info, ->(*args) {
+        messages << args.first
+      }) do
+        assert_no_difference "Pay::Webhook.count" do
+          post(
+            webhooks_revenue_cat_path,
+            params: initial_purchase_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
+        end
+      end
+
+      assert_includes(
+        messages,
+        "Received SANDBOX event from RevenueCat (not processed)"
+      )
+      assert_response :success
+    end
+
+    test "should allow SANDBOX event when allow_sandbox is true" do
+      Pay::RevenueCat.allow_sandbox = true
+
+      assert_difference "Pay::Webhook.count" do
+        assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
+          post(
+            webhooks_revenue_cat_path,
+            params: initial_purchase_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
+          assert_response :success
+        end
+      end
+    end
+
+    test "should allow SANDBOX event when allow_sandbox callable returns true" do
+      Pay::RevenueCat.allow_sandbox = ->(event) { event["app_user_id"].to_s == @owner.id.to_s }
+
+      assert_difference "Pay::Webhook.count" do
+        assert_enqueued_with(job: Pay::Webhooks::ProcessJob) do
+          post(
+            webhooks_revenue_cat_path,
+            params: initial_purchase_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
+          assert_response :success
+        end
+      end
+    end
+
+    test "should reject SANDBOX event when allow_sandbox callable returns false" do
+      Pay::RevenueCat.allow_sandbox = ->(_event) { false }
+
+      messages = []
+      Rails.logger.stub(:info, ->(*args) {
+        messages << args.first
+      }) do
+        assert_no_difference "Pay::Webhook.count" do
+          post(
+            webhooks_revenue_cat_path,
+            params: initial_purchase_params,
+            as: :json,
+            headers: {Authorization: "Basic 1234567"}
+          )
+        end
+      end
+
+      assert_includes(
+        messages,
+        "Received SANDBOX event from RevenueCat (not processed)"
       )
       assert_response :success
     end

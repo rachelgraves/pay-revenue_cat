@@ -37,6 +37,7 @@ module Pay
       def queue_event(event)
         return log_test_event if event[:event][:type] == "TEST"
         return log_transfer_event(event) if event[:event][:type] == "TRANSFER"
+        return log_sandbox_event if event[:event][:environment] == "SANDBOX" && !Pay::RevenueCat.allow_sandbox?(event[:event].to_h)
         return unless listening?(event)
 
         record = Pay::Webhook.create!(
@@ -50,6 +51,10 @@ module Pay
 
       def log_test_event
         Rails.logger.info("Received TEST event from RevenueCat")
+      end
+
+      def log_sandbox_event
+        Rails.logger.info("Received SANDBOX event from RevenueCat (not processed)")
       end
 
       def log_transfer_event(event)

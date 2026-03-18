@@ -27,6 +27,17 @@ module Pay
     mattr_accessor :integration_model_field
     @@integration_model_field = :id
 
+    mattr_writer :allow_sandbox
+    @@allow_sandbox = false
+
+    def self.allow_sandbox?(event = nil)
+      if @@allow_sandbox.respond_to?(:call)
+        @@allow_sandbox.call(event)
+      else
+        @@allow_sandbox
+      end
+    end
+
     extend Pay::Env
 
     def self.webhook_access_key

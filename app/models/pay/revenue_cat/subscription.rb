@@ -1,6 +1,10 @@
 module Pay
   module RevenueCat
     class Subscription < Pay::Subscription
+      def active? = !ends_at? || ends_at.future?
+
+      def canceled? = status == "canceled"
+
       def paused? = status == "paused"
 
       def resumable? = false
@@ -8,7 +12,10 @@ module Pay
       def self.find_or_create_from_event(customer, event)
         existing = customer.subscriptions.find_by(processor_id: event["original_transaction_id"])
         if existing
-          existing.with_lock { existing.update!(**renewal_attributes(event)) }
+          existing.with_lock do
+            data = (existing.data || {}).except("cancel_reason", :cancel_reason)
+            existing.update!(**renewal_attributes(event), data: data)
+          end
           existing
         else
           customer.subscribe(**subscription_attributes(event))

@@ -44,6 +44,24 @@ class Pay::RevenueCat::Webhooks::CancellationTest < ActiveSupport::TestCase
     assert_equal Time.at(1_740_571_667), subscription.ends_at
   end
 
+  test "cancellation with future expiration sets canceled status but remains active" do
+    payload = initial_purchase_params
+    subscription = create_subscription(payload)
+    create_initial_charge(payload, subscription)
+
+    future_expiration = (Time.now.to_i + 86400) * 1000 # 1 day from now
+    params = cancellation_params.merge("expiration_at_ms" => future_expiration)
+
+    Pay::RevenueCat::Webhooks::Cancellation.new.call(params)
+
+    subscription.reload
+
+    assert_equal "canceled", subscription.status
+    assert subscription.canceled?
+    assert subscription.active?
+    assert subscription.on_grace_period?
+  end
+
   test "runs within a transaction" do
     payload = initial_purchase_params
     subscription = create_subscription(payload)

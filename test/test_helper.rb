@@ -78,11 +78,13 @@ def android_expiration_params
   parse_fixture("expiration_android_monthly.json")
 end
 
-def parse_fixture(filename)
-  JSON.parse(file_fixture(filename).read)["event"].merge({
-    "app_user_id" => @owner.id,
-    "original_app_user_id" => @owner.id
-  })
+def parse_fixture(filename, owner: @owner)
+  event = JSON.parse(file_fixture(filename).read)["event"]
+  if owner
+    event.merge("app_user_id" => owner.id, "original_app_user_id" => owner.id)
+  else
+    event
+  end
 end
 
 def create_subscription(payload)

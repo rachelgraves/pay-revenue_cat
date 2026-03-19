@@ -9,7 +9,7 @@ class Pay::RevenueCat::Webhooks::UncancellationTest < ActiveSupport::TestCase
     @owner = @pay_customer.owner
   end
 
-  test "reactivates a pending-cancellation subscription" do
+  test "uncancellation reactivates a pending-cancellation subscription" do
     payload = uncancellation_params
     subscription = create_subscription(payload)
     subscription.update!(
@@ -18,9 +18,12 @@ class Pay::RevenueCat::Webhooks::UncancellationTest < ActiveSupport::TestCase
       data: {store: payload["store"], cancel_reason: "UNSUBSCRIBE"}
     )
 
-    Pay::RevenueCat::Webhooks::Uncancellation.new.call(uncancellation_params)
+    assert_no_changes "Pay::RevenueCat::Charge.count" do
+      Pay::RevenueCat::Webhooks::Uncancellation.new.call(uncancellation_params)
+    end
 
     subscription.reload
+
     assert_equal "active", subscription.status
     assert_nil subscription.ends_at
     assert_nil subscription.data["cancel_reason"]

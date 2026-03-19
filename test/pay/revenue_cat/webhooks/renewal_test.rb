@@ -170,6 +170,23 @@ class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
     end
   end
 
+  test "INITIAL_PURCHASE -> customer has existing RC subscriptions with different transaction id -> creates new subscription" do
+    other_subscription = @pay_customer.subscriptions.create!(
+      name: "annual",
+      processor_plan: "annual",
+      processor_id: "9999999999999999",
+      status: :active,
+      current_period_start: 1.month.ago,
+      current_period_end: 11.months.from_now
+    )
+
+    assert_difference "Pay::RevenueCat::Subscription.count" do
+      Pay::RevenueCat::Webhooks::Renewal.new.call(initial_purchase_params)
+    end
+
+    assert other_subscription.reload.persisted?
+  end
+
   test "RENEWAL -> finds RevenueCat customer even when it is not the default payment processor" do
     payload = initial_purchase_params
     subscription = create_subscription(payload)

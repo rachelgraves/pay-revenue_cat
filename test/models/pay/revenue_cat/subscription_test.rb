@@ -41,8 +41,9 @@ class Pay::RevenueCat::SubscriptionTest < ActiveSupport::TestCase
     end
   end
 
-  test ".find_or_create_from_event updates existing subscription" do
+  test ".find_or_create_from_event updates existing subscription on renewal" do
     subscription = create_subscription(initial_purchase_params)
+    subscription.update!(status: :canceled, ends_at: 1.day.ago)
 
     assert_no_difference "Pay::RevenueCat::Subscription.count" do
       result = Pay::RevenueCat::Subscription.find_or_create_from_event(@pay_customer, renewal_params)
@@ -69,10 +70,21 @@ class Pay::RevenueCat::SubscriptionTest < ActiveSupport::TestCase
     assert_equal false, attrs[:metered]
   end
 
-  test ".renewal_attributes only includes period and status fields" do
-    event = renewal_params
-    attrs = Pay::RevenueCat::Subscription.renewal_attributes(event)
+  test ".find_or_create_from_event does not overwrite name or plan on renewal" do
+    event = initial_purchase_params.merge(
+      "presented_offering_id" => "original_offering",
+      "product_id" => "annual"
+    )
+    subscription = Pay::RevenueCat::Subscription.find_or_create_from_event(@pay_customer, event)
 
-    assert_equal %i[status ends_at current_period_start current_period_end].sort, attrs.keys.sort
+    renewal_event = renewal_params.merge(
+      "presented_offering_id" => "different_offering",
+      "product_id" => "monthly"
+    )
+    Pay::RevenueCat::Subscription.find_or_create_from_event(@pay_customer, renewal_event)
+    subscription.reload
+
+    assert_equal "original_offering", subscription.name
+    assert_equal "annual", subscription.processor_plan
   end
 end

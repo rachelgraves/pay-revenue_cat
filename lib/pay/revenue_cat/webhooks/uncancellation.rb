@@ -9,7 +9,13 @@ module Pay
             pay_subscription = Pay::RevenueCat::Subscription.find_by(
               processor_id: event["original_transaction_id"]
             )
-            raise ActiveRecord::RecordNotFound, "RevenueCat subscription not found for transaction #{event["original_transaction_id"]}" if pay_subscription.nil?
+
+            if pay_subscription.nil?
+              customer = Pay::RevenueCat::Customer.find_or_create_from_event(event)
+              pay_subscription = customer.subscribe(
+                **Pay::RevenueCat::Subscription.subscription_attributes(event)
+              )
+            end
 
             data = (pay_subscription.data || {}).except("cancel_reason", :cancel_reason)
 

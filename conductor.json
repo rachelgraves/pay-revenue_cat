@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "setup": "bin/conductor-setup",
+    "run": "bin/conductor-exec bundle exec rake"
+  }
+}

@@ -14,6 +14,7 @@ module Pay
       autoload :Renewal, "pay/revenue_cat/webhooks/renewal"
       autoload :Cancellation, "pay/revenue_cat/webhooks/cancellation"
       autoload :Expiration, "pay/revenue_cat/webhooks/expiration"
+      autoload :Transfer, "pay/revenue_cat/webhooks/transfer"
       autoload :Uncancellation, "pay/revenue_cat/webhooks/uncancellation"
     end
 
@@ -50,6 +51,7 @@ module Pay
         events.subscribe "revenue_cat.RENEWAL", Pay::RevenueCat::Webhooks::Renewal.new
         events.subscribe "revenue_cat.CANCELLATION", Pay::RevenueCat::Webhooks::Cancellation.new
         events.subscribe "revenue_cat.EXPIRATION", Pay::RevenueCat::Webhooks::Expiration.new
+        events.subscribe "revenue_cat.TRANSFER", Pay::RevenueCat::Webhooks::Transfer.new
         events.subscribe "revenue_cat.UNCANCELLATION", Pay::RevenueCat::Webhooks::Uncancellation.new
       end
     end

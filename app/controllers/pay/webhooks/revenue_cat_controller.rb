@@ -36,7 +36,6 @@ module Pay
 
       def queue_event(event)
         return log_test_event if event[:event][:type] == "TEST"
-        return log_transfer_event(event) if event[:event][:type] == "TRANSFER"
         return log_sandbox_event(event) if reject_sandbox_event?(event)
         return unless listening?(event)
 
@@ -59,14 +58,6 @@ module Pay
           "type=#{event[:event][:type]} " \
           "id=#{event[:event][:id]} " \
           "app_user_id=#{event[:event][:app_user_id]}"
-        )
-      end
-
-      def log_transfer_event(event)
-        Rails.logger.warn(
-          "Received TRANSFER event from RevenueCat (not processed): " \
-          "transferred_from=#{event[:event][:transferred_from].inspect} " \
-          "transferred_to=#{event[:event][:transferred_to].inspect}"
         )
       end
 

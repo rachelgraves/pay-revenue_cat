@@ -8,6 +8,18 @@ module Pay
 
       scope :revenue_cat, -> { where(processor: "revenue_cat") }
 
+      def self.find_or_create_from_event(event)
+        find_by(processor: :revenue_cat, processor_id: event["app_user_id"]) ||
+          create_from_event(event)
+      end
+
+      def self.create_from_event(event)
+        klass = Pay::RevenueCat.integration_model_klass.constantize
+        field = Pay::RevenueCat.integration_model_field
+        owner = klass.find_by!(field => event["app_user_id"])
+        create!(owner: owner, processor: :revenue_cat, processor_id: event["app_user_id"], default: false)
+      end
+
       def update_api_record(**_attributes)
         self
       end

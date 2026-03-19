@@ -37,7 +37,7 @@ module Pay
       def queue_event(event)
         return log_test_event if event[:event][:type] == "TEST"
         return log_transfer_event(event) if event[:event][:type] == "TRANSFER"
-        return log_sandbox_event(event) if event[:event][:environment] == "SANDBOX" && !Pay::RevenueCat.allow_sandbox?(event[:event].to_h)
+        return log_sandbox_event(event) if reject_sandbox_event?(event)
         return unless listening?(event)
 
         record = Pay::Webhook.create!(
@@ -72,6 +72,11 @@ module Pay
 
       def verify_params
         params.except(:action, :controller).permit!
+      end
+
+      def reject_sandbox_event?(event)
+        event[:event][:environment] == "SANDBOX" &&
+          !Pay::RevenueCat.allow_sandbox?(event[:event].to_h)
       end
 
       def listening?(event)

@@ -194,9 +194,13 @@ module Pay
         end
       end
 
+      expected_prefix = "Received SANDBOX event from RevenueCat (not processed)"
       assert(
-        messages.any? { |m| m&.start_with?("Received SANDBOX event from RevenueCat (not processed)") },
-        "Expected a log starting with 'Received SANDBOX event from RevenueCat (not processed)', but got: #{messages.inspect}"
+        messages.any? { |message| message&.start_with?(expected_prefix) },
+        <<~MSG
+          Expected a log starting with '#{expected_prefix}',
+          but got: #{messages.inspect}
+        MSG
       )
       assert_response :success
     end
@@ -250,9 +254,13 @@ module Pay
         end
       end
 
+      expected_prefix = "Received SANDBOX event from RevenueCat (not processed)"
       assert(
-        messages.any? { |m| m&.start_with?("Received SANDBOX event from RevenueCat (not processed)") },
-        "Expected a log starting with 'Received SANDBOX event from RevenueCat (not processed)', but got: #{messages.inspect}"
+        messages.any? { |message| message&.start_with?(expected_prefix) },
+        <<~MSG
+          Expected a log starting with '#{expected_prefix}',
+          but got: #{messages.inspect}
+        MSG
       )
       assert_response :success
     end

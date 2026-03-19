@@ -6,22 +6,7 @@ module Pay
       class Renewal
         def call(event)
           Rails.logger.tagged("Renewal") do
-            pay_customer = Pay::Customer.find_by(
-              processor: :revenue_cat,
-              processor_id: event["app_user_id"]
-            )
-
-            if pay_customer.nil?
-              klass = Pay::RevenueCat.integration_model_klass.constantize
-              field = Pay::RevenueCat.integration_model_field
-              owner = klass.find_by!(field => event["app_user_id"])
-              pay_customer = Pay::RevenueCat::Customer.create!(
-                owner: owner,
-                processor: :revenue_cat,
-                processor_id: event["app_user_id"],
-                default: false
-              )
-            end
+            pay_customer = Pay::RevenueCat::Customer.find_or_create_from_event(event)
 
             Rails.logger.info "Customer: #{pay_customer.inspect}"
 

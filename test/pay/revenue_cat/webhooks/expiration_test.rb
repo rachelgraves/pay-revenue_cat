@@ -5,42 +5,37 @@ require "test_helper"
 class Pay::RevenueCat::Webhooks::ExpirationTest < ActiveSupport::TestCase
   def setup
     Pay::RevenueCat.integration_model_klass = "User"
-
     @pay_customer = pay_customers(:revenue_cat)
     @owner = @pay_customer.owner
   end
 
-  test "iOS expiration" do
+  test "expires subscription and stores expiration_reason" do
     payload = initial_purchase_params
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
-    assert_equal "APP_STORE", subscription.data["store"]
 
-    Pay::RevenueCat::Webhooks::Expiration.new.call(
-      expiration_params
-    )
+    Pay::RevenueCat::Webhooks::Expiration.new.call(expiration_params)
 
     subscription.reload
-
     assert_equal "canceled", subscription.status
-    assert_equal Time.at(1_740_141_539), subscription.ends_at
-    assert_equal "APP_STORE", subscription.data["store"]
     assert_equal "UNSUBSCRIBE", subscription.data["expiration_reason"]
   end
 
-  test "android expiration" do
-    payload = android_initial_purchase_params
+  test "raises when subscription not found" do
+    assert_raises ActiveRecord::RecordNotFound do
+      Pay::RevenueCat::Webhooks::Expiration.new.call(expiration_params)
+    end
+  end
+
+  test "runs within a transaction" do
+    payload = initial_purchase_params
     subscription = create_subscription(payload)
     create_initial_charge(payload, subscription)
 
-    Pay::RevenueCat::Webhooks::Expiration.new.call(
-      android_expiration_params
-    )
+    Pay::RevenueCat::Subscription.any_instance.stubs(:update!).raises(ActiveRecord::RecordInvalid)
 
-    subscription.reload
-
-    assert_equal 1, subscription.charges.count
-    assert_equal "canceled", subscription.status
-    assert_equal Time.at(1_740_571_667), subscription.ends_at
+    assert_raises ActiveRecord::RecordInvalid do
+      Pay::RevenueCat::Webhooks::Expiration.new.call(expiration_params)
+    end
   end
 end

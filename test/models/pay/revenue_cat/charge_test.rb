@@ -23,4 +23,14 @@ class Pay::RevenueCat::ChargeTest < ActiveSupport::TestCase
       assert_equal subscription, charge.subscription
     end
   end
+
+  test ".create_from_event creates a charge from a renewal event" do
+    subscription = create_subscription(initial_purchase_params)
+    event = renewal_params.merge("price_in_purchased_currency" => 12.99)
+
+    charge = Pay::RevenueCat::Charge.create_from_event(@pay_customer, subscription, event)
+
+    assert_equal renewal_params["transaction_id"], charge.processor_id
+    assert_equal 1299, charge.amount
+  end
 end

@@ -25,10 +25,10 @@ class Pay::RevenueCat::Webhooks::TransferTest < ActiveSupport::TestCase
       processor_id: "ch_123", amount: 999
     )
 
-    event = {
+    event = transfer_params.merge(
       "transferred_from" => [@pay_customer.processor_id],
       "transferred_to" => [@target_customer.processor_id]
-    }
+    )
 
     Pay::RevenueCat::Webhooks::Transfer.new.call(event)
 
@@ -39,10 +39,10 @@ class Pay::RevenueCat::Webhooks::TransferTest < ActiveSupport::TestCase
   test "creates target customer when not found" do
     @target_customer.destroy
 
-    event = {
+    event = transfer_params.merge(
       "transferred_from" => [@pay_customer.processor_id],
       "transferred_to" => [@target_owner.id.to_s]
-    }
+    )
 
     assert_difference "Pay::RevenueCat::Customer.count" do
       Pay::RevenueCat::Webhooks::Transfer.new.call(event)
@@ -52,10 +52,10 @@ class Pay::RevenueCat::Webhooks::TransferTest < ActiveSupport::TestCase
   end
 
   test "skips when source customer not found" do
-    event = {
+    event = transfer_params.merge(
       "transferred_from" => ["nonexistent"],
       "transferred_to" => [@target_customer.processor_id]
-    }
+    )
 
     assert_no_difference "Pay::RevenueCat::Subscription.count" do
       Pay::RevenueCat::Webhooks::Transfer.new.call(event)
@@ -63,10 +63,10 @@ class Pay::RevenueCat::Webhooks::TransferTest < ActiveSupport::TestCase
   end
 
   test "skips when target owner not found" do
-    event = {
+    event = transfer_params.merge(
       "transferred_from" => [@pay_customer.processor_id],
       "transferred_to" => ["nonexistent_owner"]
-    }
+    )
 
     Pay::RevenueCat::Webhooks::Transfer.new.call(event)
 
@@ -81,10 +81,10 @@ class Pay::RevenueCat::Webhooks::TransferTest < ActiveSupport::TestCase
 
     Pay::RevenueCat::Customer.any_instance.stubs(:charges).raises(ActiveRecord::RecordInvalid)
 
-    event = {
+    event = transfer_params.merge(
       "transferred_from" => [@pay_customer.processor_id],
       "transferred_to" => [@target_customer.processor_id]
-    }
+    )
 
     assert_raises ActiveRecord::RecordInvalid do
       Pay::RevenueCat::Webhooks::Transfer.new.call(event)

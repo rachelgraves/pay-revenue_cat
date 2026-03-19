@@ -78,6 +78,10 @@ def android_expiration_params
   parse_fixture("expiration_android_monthly.json")
 end
 
+def transfer_params
+  parse_fixture("transfer.json", owner: nil)
+end
+
 def parse_fixture(filename, owner: @owner)
   event = JSON.parse(file_fixture(filename).read)["event"]
   if owner

@@ -198,7 +198,10 @@ module Pay
       log_message = messages.find { |message| message&.start_with?(expected_prefix) }
       assert(
         log_message,
-        "Expected a log starting with '#{expected_prefix}', but got: #{messages.inspect}"
+        <<~MSG
+          Expected a log starting with '#{expected_prefix}',
+          but got: #{messages.inspect}
+        MSG
       )
       assert_includes log_message, "type=INITIAL_PURCHASE"
       assert_includes log_message, "app_user_id=#{@owner.id}"
@@ -258,7 +261,10 @@ module Pay
       log_message = messages.find { |message| message&.start_with?(expected_prefix) }
       assert(
         log_message,
-        "Expected a log starting with '#{expected_prefix}', but got: #{messages.inspect}"
+        <<~MSG
+          Expected a log starting with '#{expected_prefix}',
+          but got: #{messages.inspect}
+        MSG
       )
       assert_includes log_message, "type=INITIAL_PURCHASE"
       assert_includes log_message, "app_user_id=#{@owner.id}"

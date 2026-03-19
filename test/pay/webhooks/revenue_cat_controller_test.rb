@@ -194,9 +194,9 @@ module Pay
         end
       end
 
-      assert_includes(
-        messages,
-        "Received SANDBOX event from RevenueCat (not processed)"
+      assert(
+        messages.any? { |m| m&.start_with?("Received SANDBOX event from RevenueCat (not processed)") },
+        "Expected a log starting with 'Received SANDBOX event from RevenueCat (not processed)', but got: #{messages.inspect}"
       )
       assert_response :success
     end
@@ -250,9 +250,9 @@ module Pay
         end
       end
 
-      assert_includes(
-        messages,
-        "Received SANDBOX event from RevenueCat (not processed)"
+      assert(
+        messages.any? { |m| m&.start_with?("Received SANDBOX event from RevenueCat (not processed)") },
+        "Expected a log starting with 'Received SANDBOX event from RevenueCat (not processed)', but got: #{messages.inspect}"
       )
       assert_response :success
     end

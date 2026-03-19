@@ -7,6 +7,7 @@ module Pay
         def call(event)
           transferred_from = Array(event["transferred_from"])
           transferred_to = Array(event["transferred_to"])
+          sandbox = event["environment"] == "SANDBOX"
 
           transferred_from.each_with_index do |from_id, index|
             to_id = transferred_to[index]
@@ -15,8 +16,12 @@ module Pay
             ActiveRecord::Base.transaction do
               from_customer = Pay::RevenueCat::Customer.find_by(processor: :revenue_cat, processor_id: from_id)
               unless from_customer
-                Rails.logger.warn("RevenueCat TRANSFER: source customer not found for #{from_id}, skipping")
-                next
+                if sandbox
+                  Rails.logger.warn("RevenueCat TRANSFER: source customer not found for #{from_id}, skipping")
+                  next
+                else
+                  raise ActiveRecord::RecordNotFound, "RevenueCat TRANSFER: source customer not found for #{from_id}"
+                end
               end
 
               to_customer = Pay::RevenueCat::Customer.find_by(processor: :revenue_cat, processor_id: to_id)
@@ -24,8 +29,12 @@ module Pay
                 klass = Pay::RevenueCat.integration_model_klass.constantize
                 owner = klass.find_by(Pay::RevenueCat.integration_model_field => to_id)
                 unless owner
-                  Rails.logger.warn("RevenueCat TRANSFER: target owner not found for #{to_id}, skipping")
-                  next
+                  if sandbox
+                    Rails.logger.warn("RevenueCat TRANSFER: target owner not found for #{to_id}, skipping")
+                    next
+                  else
+                    raise ActiveRecord::RecordNotFound, "RevenueCat TRANSFER: target owner not found for #{to_id}"
+                  end
                 end
                 to_customer = Pay::RevenueCat::Customer.create!(
                   owner: owner, processor: :revenue_cat, processor_id: to_id, default: false

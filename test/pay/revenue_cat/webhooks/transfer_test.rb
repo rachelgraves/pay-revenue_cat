@@ -51,7 +51,7 @@ class Pay::RevenueCat::Webhooks::TransferTest < ActiveSupport::TestCase
     assert_equal @target_owner.id.to_s, @subscription.reload.customer.processor_id
   end
 
-  test "skips when source customer not found" do
+  test "skips when source customer not found in sandbox" do
     event = transfer_params.merge(
       "transferred_from" => ["nonexistent"],
       "transferred_to" => [@target_customer.processor_id]
@@ -62,7 +62,19 @@ class Pay::RevenueCat::Webhooks::TransferTest < ActiveSupport::TestCase
     end
   end
 
-  test "skips when target owner not found" do
+  test "raises when source customer not found in production" do
+    event = transfer_params.merge(
+      "environment" => "PRODUCTION",
+      "transferred_from" => ["nonexistent"],
+      "transferred_to" => [@target_customer.processor_id]
+    )
+
+    assert_raises ActiveRecord::RecordNotFound do
+      Pay::RevenueCat::Webhooks::Transfer.new.call(event)
+    end
+  end
+
+  test "skips when target owner not found in sandbox" do
     event = transfer_params.merge(
       "transferred_from" => [@pay_customer.processor_id],
       "transferred_to" => ["nonexistent_owner"]
@@ -71,6 +83,18 @@ class Pay::RevenueCat::Webhooks::TransferTest < ActiveSupport::TestCase
     Pay::RevenueCat::Webhooks::Transfer.new.call(event)
 
     assert_equal @pay_customer, @subscription.reload.customer
+  end
+
+  test "raises when target owner not found in production" do
+    event = transfer_params.merge(
+      "environment" => "PRODUCTION",
+      "transferred_from" => [@pay_customer.processor_id],
+      "transferred_to" => ["nonexistent_owner"]
+    )
+
+    assert_raises ActiveRecord::RecordNotFound do
+      Pay::RevenueCat::Webhooks::Transfer.new.call(event)
+    end
   end
 
   test "runs within a transaction" do

@@ -55,6 +55,7 @@ class Pay::RevenueCat::Webhooks::UncancellationTest < ActiveSupport::TestCase
       ends_at: 30.days.from_now,
       data: {store: payload["store"], cancel_reason: "UNSUBSCRIBE"}
     )
+    subscription.reload
     original_status = subscription.status
     original_ends_at = subscription.ends_at
     original_data = subscription.data.dup

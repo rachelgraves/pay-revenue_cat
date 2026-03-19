@@ -29,6 +29,24 @@ class Pay::RevenueCat::Webhooks::UncancellationTest < ActiveSupport::TestCase
     assert_nil subscription.data["cancel_reason"]
   end
 
+  test "creates subscription when none exists" do
+    assert_difference "Pay::RevenueCat::Subscription.count" do
+      Pay::RevenueCat::Webhooks::Uncancellation.new.call(uncancellation_params)
+    end
+
+    subscription = @pay_customer.reload.subscriptions.last
+    assert_equal "active", subscription.status
+    assert_nil subscription.ends_at
+  end
+
+  test "creates customer and subscription when neither exists" do
+    @pay_customer.destroy
+
+    assert_difference ["Pay::RevenueCat::Customer.count", "Pay::RevenueCat::Subscription.count"] do
+      Pay::RevenueCat::Webhooks::Uncancellation.new.call(uncancellation_params)
+    end
+  end
+
   test "runs within a transaction" do
     payload = uncancellation_params
     subscription = create_subscription(payload)

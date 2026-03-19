@@ -203,4 +203,16 @@ class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
     assert_equal renewal_params["transaction_id"], charge.processor_id
     assert_equal "revenue_cat", @pay_customer.processor
   end
+
+  test "runs within a transaction" do
+    @pay_customer.destroy
+
+    Pay::RevenueCat::Charge.stub(:create_from_event, ->(*) { raise ActiveRecord::RecordInvalid }) do
+      assert_no_difference ["Pay::RevenueCat::Customer.count", "Pay::RevenueCat::Subscription.count"] do
+        assert_raises ActiveRecord::RecordInvalid do
+          Pay::RevenueCat::Webhooks::Renewal.new.call(initial_purchase_params)
+        end
+      end
+    end
+  end
 end

@@ -28,4 +28,28 @@ class Pay::RevenueCat::Webhooks::UncancellationTest < ActiveSupport::TestCase
     assert_nil subscription.ends_at
     assert_nil subscription.data["cancel_reason"]
   end
+
+  test "runs within a transaction" do
+    payload = uncancellation_params
+    subscription = create_subscription(payload)
+    subscription.update!(
+      status: :active,
+      ends_at: 30.days.from_now,
+      data: {store: payload["store"], cancel_reason: "UNSUBSCRIBE"}
+    )
+    original_status = subscription.status
+    original_ends_at = subscription.ends_at
+    original_data = subscription.data.dup
+
+    Pay::RevenueCat::Subscription.any_instance.stubs(:update!).raises(ActiveRecord::RecordInvalid)
+
+    assert_raises ActiveRecord::RecordInvalid do
+      Pay::RevenueCat::Webhooks::Uncancellation.new.call(uncancellation_params)
+    end
+
+    subscription.reload
+    assert_equal original_status, subscription.status
+    assert_equal original_ends_at, subscription.ends_at
+    assert_equal original_data, subscription.data
+  end
 end

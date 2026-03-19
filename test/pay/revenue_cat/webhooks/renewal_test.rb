@@ -140,6 +140,26 @@ class Pay::RevenueCat::Webhooks::RenewalTest < ActiveSupport::TestCase
     assert_equal Time.at(1_740_658_577), subscription.current_period_end
   end
 
+  test "RENEWAL -> iOS -> clears cancel_reason from data after reactivation" do
+    payload = initial_purchase_params
+    subscription = create_subscription(payload)
+    create_initial_charge(payload, subscription)
+
+    subscription.update!(
+      status: :cancelled,
+      ends_at: 1.day.ago,
+      data: subscription.data.merge("cancel_reason" => "CUSTOMER_SUPPORT")
+    )
+
+    Pay::RevenueCat::Webhooks::Renewal.new.call(
+      renewal_after_cancellation_params
+    )
+
+    subscription.reload
+    assert_equal "active", subscription.status
+    assert_nil subscription.data["cancel_reason"]
+  end
+
   # we may not get here in real life but what happens with sandbox accounts
   # is if you have already had a subscriotion expire and start a new one
   # revenue_cat send a renewal event. If you're re-seeding your database this

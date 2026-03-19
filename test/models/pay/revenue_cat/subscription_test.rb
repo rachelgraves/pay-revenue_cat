@@ -26,6 +26,14 @@ class Pay::RevenueCat::SubscriptionTest < ActiveSupport::TestCase
     refute Pay::RevenueCat::Subscription.new(status: :canceled).paused?
   end
 
+  test "#canceled? returns true when status is canceled" do
+    assert Pay::RevenueCat::Subscription.new(status: :canceled).canceled?
+  end
+
+  test "#canceled? returns false when status is active even with ends_at set" do
+    refute Pay::RevenueCat::Subscription.new(status: :active, ends_at: 1.month.from_now).canceled?
+  end
+
   test ".find_or_create_from_event creates subscription when none exists" do
     event = initial_purchase_params
 

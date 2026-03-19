@@ -1,6 +1,8 @@
 module Pay
   module RevenueCat
     class Subscription < Pay::Subscription
+      def active? = !ends_at? || ends_at.future?
+
       def canceled? = status == "canceled"
 
       def paused? = status == "paused"

@@ -34,6 +34,21 @@ class Pay::RevenueCat::SubscriptionTest < ActiveSupport::TestCase
     refute Pay::RevenueCat::Subscription.new(status: :active, ends_at: 1.month.from_now).canceled?
   end
 
+  test "#active? returns true for subscription with future ends_at" do
+    subscription = Pay::RevenueCat::Subscription.new(status: :active, ends_at: 1.month.from_now)
+    assert subscription.active?
+  end
+
+  test "#active? returns true for subscription with nil ends_at" do
+    subscription = Pay::RevenueCat::Subscription.new(status: :active, ends_at: nil)
+    assert subscription.active?
+  end
+
+  test "#active? returns false for subscription with past ends_at" do
+    subscription = Pay::RevenueCat::Subscription.new(status: :canceled, ends_at: 1.day.ago)
+    refute subscription.active?
+  end
+
   test ".find_or_create_from_event creates subscription when none exists" do
     event = initial_purchase_params
 

@@ -195,13 +195,10 @@ module Pay
       end
 
       expected_prefix = "Received SANDBOX event from RevenueCat (not processed)"
-      assert(
-        messages.any? { |message| message&.start_with?(expected_prefix) },
-        <<~MSG
-          Expected a log starting with '#{expected_prefix}',
-          but got: #{messages.inspect}
-        MSG
-      )
+      log_message = messages.find { |message| message&.start_with?(expected_prefix) }
+      assert log_message, "Expected a log starting with '#{expected_prefix}', but got: #{messages.inspect}"
+      assert_includes log_message, "type=INITIAL_PURCHASE"
+      assert_includes log_message, "app_user_id=#{@owner.id}"
       assert_response :success
     end
 
@@ -255,13 +252,10 @@ module Pay
       end
 
       expected_prefix = "Received SANDBOX event from RevenueCat (not processed)"
-      assert(
-        messages.any? { |message| message&.start_with?(expected_prefix) },
-        <<~MSG
-          Expected a log starting with '#{expected_prefix}',
-          but got: #{messages.inspect}
-        MSG
-      )
+      log_message = messages.find { |message| message&.start_with?(expected_prefix) }
+      assert log_message, "Expected a log starting with '#{expected_prefix}', but got: #{messages.inspect}"
+      assert_includes log_message, "type=INITIAL_PURCHASE"
+      assert_includes log_message, "app_user_id=#{@owner.id}"
       assert_response :success
     end
 

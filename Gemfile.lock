@@ -3,7 +3,7 @@ PATH
   specs:
     pay-revenue_cat (0.1.0)
       activesupport
-      pay (~> 8)
+      pay (>= 8, < 13)
       railties (>= 7.1, < 9)
 
 GEM
